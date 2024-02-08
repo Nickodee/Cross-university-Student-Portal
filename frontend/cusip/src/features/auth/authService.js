@@ -6,7 +6,7 @@ const API_URL = '/api/users/';
 // Login user
 const login = async (userData) => {
   try {
-    const response = await axios.post(BASE_URL + API_URL + 'login', userData);
+    const response = await axios.post(BASE_URL + API_URL + 'login', userData, {withCredentials: true});
 
     if (response.data) {
       localStorage.setItem('user', JSON.stringify(response.data));
@@ -37,15 +37,47 @@ const register = async (userData) => {
   }
 };
 
+
+const getAuthenticatedUser = async () => {
+  try {
+    const response = await fetch(BASE_URL + API_URL + 'user', {
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error('User unauthenticated');
+    }
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    // Handle error, e.g., display a message or try refreshing the token
+    console.error('Failed to get authenticated user:', error.message);
+    return null;
+  }
+};
+
+
 // Logout user
-const logout = () => {
-  localStorage.removeItem('user');
+const logout = async () => {
+  try{
+    const response = await axios.post(BASE_URL + API_URL + 'logout', {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials:true
+    })
+    return response
+    
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 const authService = {
   register,
   logout,
   login,
+  getAuthenticatedUser
 };
 
 export default authService;

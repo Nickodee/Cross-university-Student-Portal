@@ -26,7 +26,7 @@ export default function Register() {
       toast.error(message)
     }
     if(isSuccess) {
-      navigate('/pages/dashboard')
+      navigate('/pages/login')
       toast.success('successfully  registered!')
     }
     dispatch(reset())

@@ -2,6 +2,10 @@ import {useState, useEffect} from 'react'
 import Laptop from '../assets/laptop.jpg'
 import LightBulb from '../assets/lightbulb.jpg'
 import { FaArrowRight } from "react-icons/fa";
+import {useSelector, useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
+import { login, reset } from '../features/auth/authSlice'
 
 export default function Login() {
     const  [formData, setFormData] = useState({
@@ -10,6 +14,22 @@ export default function Login() {
       });
     
       const {email, password} = formData
+
+      const navigate = useNavigate()
+      const dispatch = useDispatch()
+      const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
+
+      useEffect(() => {
+        if (isError) {
+            toast.error("Invalid credentials")
+        }
+        if(isSuccess){
+            navigate('/pages/dashboard')
+            toast.success('Successfully logged in')
+        }
+
+        dispatch(reset())
+      }, [user, navigate, message, isError, isSuccess, dispatch])
       const onChange = (e) => {
         setFormData((prevState)=>({
           ...prevState,
@@ -18,6 +38,12 @@ export default function Login() {
       }
       const onSubmit = (e) => {
         e.preventDefault();
+
+        const userData = {
+            email,
+            password
+        }
+        dispatch(login(userData))
       }
   return (
     <div className='min-h-screen overflow-y-scroll overflow-hidden flex justify-center items-center'>
