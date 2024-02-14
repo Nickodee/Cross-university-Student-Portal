@@ -15,11 +15,25 @@ function Room() {
   return (
     <DashLayout>
       <div>
-        <div className=' rounded-md md:gap-0 gap-2 flex md:flex-row flex-col justify-between my-2 w-full bg-white shadow-lg md:max-h-96 '>
+        <div className=' rounded-md md:gap-0 gap-2 flex md:flex-row flex-col justify-between my-2 w-full bg-white shadow-lg max-h-screen '>
           <div className=' md:border-b-0 border-b-2 w-full border-r-0 md:border-r-2 p-3'>
             <div className='flex justify-between border-b-2 p-1'>Direct Messages <FaPlus /></div>
-            <div className='overflow-y-scroll  overflow-hidden pr-2'>
+            <div className='overflow-y-scroll flex flex-col gap-2  overflow-hidden pr-2'>
               <button className='hover:underline mt-2 hover:text-[#2dabb1]'>Inbox</button>
+              <div className='flex items-center gap-4 bg-slate-500 text-white p-2 rounded'>
+                <div className='h-9 w-9 bg-[#2dabb1] rounded-md flex items-center justify-center'>NM</div>
+                <div>
+                  <h1 className='gap-3'>James <span className='text-slate-400'>2 Days ago</span></h1>
+                  <p>Hi Text, I would to...</p>
+                </div>
+              </div>
+              <div className='flex items-center gap-4 bg-slate-500 text-white p-2 rounded'>
+                <div className='h-9 w-9 bg-[#2dabb1] rounded-md flex items-center justify-center'>NM</div>
+                <div>
+                  <h1 className='gap-3'>James <span className='text-slate-400'>2 Days ago</span></h1>
+                  <p>Hi Text, I would to...</p>
+                </div>
+              </div>
               <div className='flex items-center gap-4 bg-slate-500 text-white p-2 rounded'>
                 <div className='h-9 w-9 bg-[#2dabb1] rounded-md flex items-center justify-center'>NM</div>
                 <div>
@@ -72,7 +86,7 @@ function Room() {
                 Comments
               </li>
             </ul>
-            <div className='w-full overflow-y-scroll p-1'>
+            <div className='w-full overflow-y-scroll h-full p-1'>
               {selectedTab === 'About' && <div>{<h1>About</h1>}</div>}
               {selectedTab === 'Posts' && <div>{<h1>Posts</h1>}</div>}
               {selectedTab === 'Comments' && <div>{<h1>Comments</h1>}</div>}

@@ -1,94 +1,102 @@
-import React from 'react'
+import { useState } from 'react'
 import DashLayout from './Dashboard/DashLayout'
+import { FaPlus } from "react-icons/fa";
+import { CiBookmark,CiImageOn } from "react-icons/ci";
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import { SlLike } from "react-icons/sl";
+import { GoComment } from "react-icons/go";
+import Comments from './Job_Updates/Comments';
+import Debate from '../assets/Debate.png'
+import { IoMdClose } from "react-icons/io";
+import { BsEmojiGrin } from "react-icons/bs";
+import { LuFiles } from "react-icons/lu";
+import { FaLink } from "react-icons/fa6";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 function Jobs_Updates() {
+  const [selectedTab, setSelectedTab] = useState(false);
+  const [isPostClicked, setIsPostClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setSelectedTab(!selectedTab);
+  };
+
+  const handlePostClicked = () => {
+    setIsPostClicked(!isPostClicked)
+  }
   return (
     <DashLayout>
-      <div class="text-center">
-        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#hs-notifications">
-          Open modal
-        </button>
-      </div>
-
-      <div id="hs-notifications" class="hs-overlay hidden w-full h-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto">
-        <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
-          <div class="relative flex flex-col bg-white border shadow-sm rounded-xl overflow-hidden dark:bg-gray-800 dark:border-gray-700">
-            <div class="absolute top-2 end-2">
-              <button type="button" class="flex justify-center items-center w-7 h-7 text-sm font-semibold rounded-lg border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-transparent dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#hs-notifications">
-                <span class="sr-only">Close</span>
-                <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-              </button>
-            </div>
-            <div class="p-4 sm:p-10 overflow-y-auto">
-              <div class="mb-6 text-center">
-                <h3 class="mb-2 text-xl font-bold text-gray-800 dark:text-gray-200">
-                  Notifications
-                </h3>
-                <p class="text-gray-500">
-                  Get notified of activity at Preline
-                </p>
-              </div>
-
-              <div class="space-y-4">
-                <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700">
-                  <label for="hs-account-activity" class="flex p-4 md:p-5">
-                    <span class="flex me-5">
-                      <svg class="flex-shrink-0 mt-1 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
-
-                      <span class="ms-5">
-                        <span class="block font-medium text-gray-800 dark:text-gray-200">Account Activity</span>
-                        <span class="block text-sm text-gray-500">Get important notifications about you or activity you've missed</span>
-                      </span>
-                    </span>
-
-                    <input type="checkbox" id="hs-account-activity" class="relative w-[3.25rem] h-7 bg-gray-100 checked:bg-none checked:bg-blue-600 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 ring-1 ring-transparent focus:border-blue-600 focus:ring-blue-600 ring-offset-white focus:outline-none appearance-none  dark:bg-gray-700 dark:checked:bg-blue-600 dark:focus:ring-offset-gray-800
-
-              before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:shadow before:rounded-full before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200" checked/>
-                  </label>
+      <h1 className='text-center'>Jobs_Updates</h1>
+      <div className='w-full h-full p-3'>
+        <div className='w-full bg-white border rounded flex items-center p-2 justify-between'>
+          <div className='flex gap-3 items-center'>
+            <div className='bg-[#2dabb1] text-white rounded p-2'>NM</div>
+            Start a post
+          </div>
+          <div className='p-2 bg-gray-200 rounded cursor-pointer'><FaPlus onClick={handlePostClicked} /></div>
+          {
+            isPostClicked && (
+              <div className='fixed top-12 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center' togglePost = {handlePostClicked}>
+              <div className='bg-white rounded-lg p-4 max-w-[500px]'>
+                <div className='flex font-bold justify-between items-center'>
+                  Create your Post
+                  <button className='cursor-pointer hover:bg-gray-100 p-2 rounded' >
+                    <IoMdClose size={24} onClick={handlePostClicked} />
+                  </button>
                 </div>
-
-                <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700">
-                  <label for="hs-meetups-near-you" class="flex p-4 md:p-5">
-                    <span class="flex me-5">
-                      <svg class="flex-shrink-0 mt-1 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-
-                      <span class="ms-5">
-                        <span class="block font-medium text-gray-800 dark:text-gray-200">Meetups Near You</span>
-                        <span class="block text-sm text-gray-500">Get an email when a Preline Meetup is posted close to my location</span>
-                      </span>
-                    </span>
-
-                    <input type="checkbox" id="hs-meetups-near-you" class="relative w-[3.25rem] h-7 bg-gray-100 checked:bg-none checked:bg-blue-600 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 ring-1 ring-transparent focus:border-blue-600 focus:ring-blue-600 ring-offset-white focus:outline-none appearance-none  dark:bg-gray-700 dark:checked:bg-blue-600 dark:focus:ring-offset-gray-800
-
-              before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:shadow before:rounded-full before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"/>
-                  </label>
-                </div>
-
-                <div class="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700">
-                  <label for="hs-preline-communication" class="flex p-4 md:p-5">
-                    <span class="flex me-5">
-                      <svg class="flex-shrink-0 mt-1 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z" /><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" /></svg>
-
-                      <span class="ms-5">
-                        <span class="block font-medium text-gray-800 dark:text-gray-200">Preline Communication</span>
-                        <span class="block text-sm text-gray-500">Get Preline news, announcements, and product updates</span>
-                      </span>
-                    </span>
-
-                    <input type="checkbox" id="hs-preline-communication" class="relative w-[3.25rem] h-7 bg-gray-100 checked:bg-none checked:bg-blue-600 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 ring-1 ring-transparent focus:border-blue-600 focus:ring-blue-600 ring-offset-white focus:outline-none appearance-none  dark:bg-gray-700 dark:checked:bg-blue-600 dark:focus:ring-offset-gray-800
-              before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:shadow before:rounded-full before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"/>
-                  </label>
+                <div>
+                  <form className='mt-4 max-h-[500px]'>
+                    <div className='h-full overflow-hidden pb-1 overflow-y-scroll w-full'>
+                      <p className=' text-wrap whitespace-normal w-full'>fhsdddddddssssgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg</p>
+                    </div>
+                    <div className='w-full border-t-2 pt-2 justify-between flex gap-4 items-center'>
+                      <div className='flex items-center gap-3'>
+                        <CiImageOn/>
+                        <BsEmojiGrin/>
+                        <FaLink/>
+                        <LuFiles/>
+                      </div>
+                      <p className='flex items-center gap-2'>You are posting to <button className='underline flex items-center gap-1'>ROOM <RiArrowDropDownLine className='font-bold' size={24}/></button></p>
+                      <button type='submit' className='border bg-[#2dabb1] rounded hover:shadow-md text-white p-1'>Publish</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
+            )
+          }
+        </div>
+        <div className='mt-4'>
+          <div className='bg-white p-2 rounded'>
+            <div className='max-h-96'>
+              <img src={Debate} alt='' className='max-h-96 object-cover w-full'  />
+            </div>
 
-            <div class="flex justify-end items-center gap-x-2 py-3 px-4 bg-gray-50 border-t dark:bg-gray-800 dark:border-gray-700">
-              <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#hs-notifications">
-                Cancel
-              </button>
-              <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
-                Update notifications
-              </a>
+            <div className='flex justify-between items-center'>
+              <div className='flex gap-3 items-center'>
+                <div className='bg-[#2aabb1] h-10 w-10 rounded'></div>
+                <div className='flex flex-col'>
+                  <div className='flex gap-3 items-center'>Nicodemus Muholo <span>2 hrs ago</span></div>
+                  <p>Posted in SCIT Room</p>
+                </div>
+              </div>
+              <div className='flex items-center gap-3'><CiBookmark /> <HiOutlineDotsVertical /></div>
+            </div>
+            <div>
+              <h1 className='font-bold mt-3'>Title Here</h1>
+              <p className='mt-3'>You text goes here</p>
+            </div>
+            <div className='flex w-full justify-between items-center mt-4'>
+              <div className='flex gap-3 items-center '>
+                <button className=" text-gray-600 hover:text-black font-semibold flex items-center gap-2"><SlLike />Like</button>
+                <button className=" text-gray-600 hover:text-black font-semibold flex items-center gap-2" onClick={handleButtonClick}><GoComment />Comment</button>
+              </div>
+              <button className='flex text-gray-600 hover:text-black items-center gap-2' onClick={handleButtonClick}><span>454</span>comments</button>
+            </div>
+            <div className='mt-1'>
+              {selectedTab && (
+                <div><Comments /></div>
+              )}
             </div>
           </div>
         </div>

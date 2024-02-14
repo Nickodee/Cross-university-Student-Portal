@@ -10,11 +10,11 @@ export default function DashLayout({ children }) {
   };
 
   return (
-    <div className='flex overflow-hidden'>
+    <div className='flex'>
       <AsideNav collapsed={asideNavCollapsed} />
-      <div className='flex flex-col flex-1 h-screen'>
-        <div className='bg-gray-100 h-full'>
-          <DashNav onToggleAsideNav={toggleAsideNav} />
+      <div className='flex flex-col h-screen w-full bg-gray-100'>
+      <DashNav onToggleAsideNav={toggleAsideNav} />
+        <div className=' overflow-y-scroll'>
           {children}
         </div>
       </div>

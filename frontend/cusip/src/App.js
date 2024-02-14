@@ -9,6 +9,8 @@ import ProProfile from './components/ProProfile';
 import Jobs_Updates from './components/Jobs_Updates';
 import Room from './components/Room';
 import DashHome from './components/DashHome';
+import Notifications from './components/Notifications';
+import Settings from './components/Settings';
 
 
 export default function App() {
@@ -24,6 +26,8 @@ export default function App() {
         <Route path='/dashboard/profile' element={<ProProfile/>}/>
         <Route path='/dashboard/job_updates' element={<Jobs_Updates/>}/>
         <Route path='/dashboard/room' element={<Room/>}/>
+        <Route path='/dashboard/notifications' element={<Notifications/>}/>
+        <Route path='/dashboard/settings' element={<Settings/>}/>
       </Routes>
       </Router>
       <ToastContainer/>

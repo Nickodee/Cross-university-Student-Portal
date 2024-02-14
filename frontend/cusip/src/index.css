@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.profile-sidebar {
+    position: fixed;
+    top: 53px;
+    right: 0;
+    width: 500px; /* Adjust width according to your design */
+    height: 100%;
+    background-color: #fff; /* Adjust background color as needed */
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform 0.3s ease; /* Add smooth transition */
+  }
+  
+  .profile-content {
+    width: 500px; /* Adjust width according to your design */
+    height: 100%;
+    background-color: #fff;
+  }
+  
+  .profile-sidebar.show {
+    transform: translateX(0); /* Show the sidebar by moving it to the left */
+  }
+  

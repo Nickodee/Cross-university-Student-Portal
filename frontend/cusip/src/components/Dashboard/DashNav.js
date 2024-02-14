@@ -66,7 +66,7 @@ function DashNav({ onToggleAsideNav }) {
   return (
     <nav className='w-full items-center px-3 py-2 justify-between bg-white md:flex'>
       <div className='w-full flex justify-between items-center'><FaBars onClick={onToggleAsideNav} className='cursor-pointer' />
-        <button className='md:hidden' onClick={() => setIsDotsClicked(!isDotsClicked)}>{isDotsClicked ? (
+        <button className='md:hidden' onClick={handleDotsClick}>{isDotsClicked ? (
                       <IoIosClose size={24} />
                     ) : (
                       <BsThreeDotsVertical />
@@ -99,7 +99,7 @@ function DashNav({ onToggleAsideNav }) {
             </div>
             <hr className='border-b border-gray-300 w-full' />
             <hr className='border-b border-gray-300 w-full mt-5 mb-2' />
-            <div className='text-center p-1 cursor-pointer w-full  hover:bg-gray-200 center mb-2 text-[13px]'>Read all messages</div>
+            <Link to='/dashboard/room' className='text-center p-1 cursor-pointer w-full  hover:bg-gray-200 center mb-2 text-[13px]'>Read all messages</Link>
           </div>
         )}
         <div className='h-9 w-9 cursor-pointer bg-black rounded-full text-white items-center justify-center flex' onClick={handleProfileClick}>NM</div>
