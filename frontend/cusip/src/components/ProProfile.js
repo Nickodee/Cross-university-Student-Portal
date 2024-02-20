@@ -10,19 +10,53 @@ import { Link } from 'react-router-dom';
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { FaVideo } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { SlCalender } from "react-icons/sl";
 
 
 
 function ProProfile() {
+  // Functions to open modals to update the user profile start here
   const [isUserOpen, setIsUserOpen] = useState(false);
   const [isBioOpen, setIsBioOpen] = useState(false);
+  const [isEducationOpen, setIsEducationOpen] = useState(false)
+  const [isExperienceOpen, setIsExperienceOpen] = useState(false)
+  const [isLanguagesOpen, setIsLanguagesOpen] = useState(false)
+  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false)
+  const [isAddVideoOpen, setIsAddVideoOpen] = useState(false)
 
+  //open the bio modal
   const toggleBioModal = () => {
     setIsBioOpen(!isBioOpen);
   };
   const toggleUserModal = () => {
     setIsUserOpen(!isUserOpen)
   }
+
+  //open education modal
+  const toggleEducationModal = () => {
+    setIsEducationOpen(!isEducationOpen)
+  }
+
+  //open Experience modal
+  const toggleExperienceModal = () => {
+    setIsExperienceOpen(!isExperienceOpen)
+  }
+
+  //open Languages modal
+  const toggleLanguageModal = () => {
+    setIsLanguagesOpen(!isLanguagesOpen)
+  }
+
+  //open Portfolio modal
+  const togglePortfolioModal = () => {
+    setIsPortfolioOpen(!isPortfolioOpen)
+  }
+
+  //open Languages modal
+  const toggleVideoModal = () => {
+    setIsAddVideoOpen(!isAddVideoOpen)
+  }
+  // Functions to open modals to update the user profile end here
   return (
     <DashLayout>
       <div className='flex sm:flex-row flex-col md:gap-7 w-full justify-between my-1 gap-2 h-full'>
@@ -46,7 +80,7 @@ function ProProfile() {
           </div>
           {/* Code to open the user Modal */}
           {isUserOpen && (
-            <div className='fixed top-12 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
+            <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
               <div className='bg-white rounded-lg p-4 max-w-[500px]'>
                 <div className='flex font-bold justify-between items-center'>
                   Edit your personal Information
@@ -109,7 +143,7 @@ function ProProfile() {
           </div>
           {/* Code to open the Bio Modal */}
           {isBioOpen && (
-            <div className='fixed top-12 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
+            <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
               <div className='bg-white rounded-lg p-4 max-w-[450px]'>
                 <div className='flex font-bold justify-between items-center'>
                   Edit About
@@ -131,21 +165,169 @@ function ProProfile() {
             </div>
           )}
           <div className='w-full bg-white rounded mt-3 p-3'>
-            <div className='flex justify-between font-bold'>Education <span className='flex cursor-pointer font-medium items-center gap-2 text-[16px]'>Add <CiCirclePlus /></span></div>
+            <div className='flex justify-between font-bold'>Education <span className='flex cursor-pointer font-medium items-center gap-2 text-[16px]'>Add <CiCirclePlus onClick={toggleEducationModal} /></span></div>
             <div>Education goes here..</div>
           </div>
+          {/* Code for Education Modal */}
+          {isEducationOpen && (
+            <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
+              <div className='bg-white rounded-lg p-4 max-w-[450px]'>
+                <div className='flex font-bold justify-between items-center'>
+                  Edit Education Details
+                  <button className='cursor-pointer hover:bg-gray-100 p-2 rounded' onClick={toggleEducationModal}>
+                    <IoMdClose size={24} />
+                  </button>
+                </div>
+                <div>
+                  <form className='mt-2 flex flex-col gap-2'>
+                    <div>
+                      <label>University, School or Organization</label>
+                      <input type='text' placeholder='Enter your School' className='w-full border rounded p-1 outline-[#2dabb1]' />
+                    </div>
+                    <div>
+                      <label>Country</label>
+                      <input type='text' placeholder='Enter your Country' className='w-full border p-1 rounded outline-[#2dabb1]' />
+                    </div>
+                    <div>
+                      <label>City</label>
+                      <input type='text' placeholder='Enter your School' className='w-full border p-1 rounded outline-[#2dabb1]' />
+                    </div>
+                    <div className='flex justify-center w-full items-center gap-2'>
+                      <div >
+                        <label>Field of Study</label>
+                        <input type='text' placeholder='Enter your Country' className='w-full border rounded p-1 outline-[#2dabb1]' />
+                      </div>
+                      <div >
+                        <label>Level of Education</label>
+                        <input type='text' placeholder='Enter your level of Education' className='w-full rounded border p-1 outline-[#2dabb1]' />
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <label>Start date</label>
+                        <div>
+                          <input type='text' placeholder='Enter Month'/>
+                          <SlCalender/>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='flex w-full justify-between gap-3 px-3'>
+                      <button onClick={toggleEducationModal} className='border rounded-full w-full hover:bg-[#2dabb1] hover:text-white p-2'>Cancel</button>
+                      <button type='submit' className='border bg-[#2dabb1] rounded-full w-full hover:shadow-md text-white p-2'>Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
           <div className='w-full bg-white rounded mt-3 p-3'>
-            <div className='flex justify-between font-bold'>Experience <span className='flex cursor-pointer font-medium items-center gap-2 text-[16px]'>Add <CiCirclePlus /></span></div>
+            <div className='flex justify-between font-bold'>Experience <span className='flex cursor-pointer font-medium items-center gap-2 text-[16px]'>Add <CiCirclePlus onClick={toggleExperienceModal} /></span></div>
             <div>Experience goes here...</div>
           </div>
+          {/* Code for Experience modal */}
+          {isExperienceOpen && (
+            <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
+              <div className='bg-white rounded-lg p-4 max-w-[450px]'>
+                <div className='flex font-bold justify-between items-center'>
+                  Edit Experience
+                  <button className='cursor-pointer hover:bg-gray-100 p-2 rounded' onClick={toggleExperienceModal}>
+                    <IoMdClose size={24} />
+                  </button>
+                </div>
+                <div>
+                  <form className='mt-4'>
+                    <input type='text' placeholder='work experience' />
+                    <div className='flex w-full justify-between gap-3 px-3'>
+                      <button onClick={toggleExperienceModal} className='border rounded-full w-full hover:bg-[#2dabb1] hover:text-white p-2'>Cancel</button>
+                      <button type='submit' className='border bg-[#2dabb1] rounded-full w-full hover:shadow-md text-white p-2'>Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <div className='flex flex-col w-full sm:mr-7 gap-2'>
-          <div className='flex justify-between bg-white p-2 shadow-md items-center rounded'>Languages <FaPen /></div>
+          <div className='flex justify-between bg-white p-2 shadow-md items-center rounded'>Languages <FaPen className='cursor-pointer' onClick={toggleLanguageModal} /></div>
+          {/* Language Modal here */}
+          {isLanguagesOpen && (
+            <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
+              <div className='bg-white rounded-lg p-4 max-w-[450px]'>
+                <div className='flex font-bold justify-between items-center'>
+                  Edit Language
+                  <button className='cursor-pointer hover:bg-gray-100 p-2 rounded' onClick={toggleLanguageModal}>
+                    <IoMdClose size={24} />
+                  </button>
+                </div>
+                <div>
+                  <form className='mt-4'>
+                    <div>English</div>
+                    <div className='flex w-full justify-between gap-3 px-3'>
+                      <button onClick={toggleLanguageModal} className='border rounded-full w-full hover:bg-[#2dabb1] hover:text-white p-2'>Cancel</button>
+                      <button type='submit' className='border bg-[#2dabb1] rounded-full w-full hover:shadow-md text-white p-2'>Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
           <div className='flex flex-col justify-between bg-white p-2 shadow-md items-center rounded'>Your CV <div className='p-2 hover:text-blue-400 border-dotted border-2 bg-gray-200 flex flex-col gap-3 justify-center items-center'><IoCloudUploadOutline /><p><span><Link to='#' className='text-blue-300'>Click here to upload</Link></span> or drag and drop DOC, PDF, JPEG or PNG</p></div></div>
           <div className='flex flex-col gap-2 justify-between bg-white p-2 shadow-md items-center rounded'>Introduce yourself to clients with a pitch
-            <div className='bg-[#2dabb1] cursor-pointer p-2 rounded-lg flex items-center gap-2 text-white'><FaVideo /><span>+ Add link to your video</span></div>
+            <button onClick={toggleVideoModal} className='bg-[#2dabb1] cursor-pointer p-2 rounded-lg flex items-center gap-2 text-white'><FaVideo /><span>+ Add link to your video</span></button>
           </div>
-          <div className='flex justify-between bg-white p-2 shadow-md items-center rounded'>Your Portfolio <FaPen /></div>
+          {/* Video Modal open */}
+          {isAddVideoOpen && (
+            <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
+              <div className='bg-white rounded-lg p-4 max-w-[450px]'>
+                <div className='flex font-bold justify-between items-center'>
+                  Update a Video Link
+                  <button className='cursor-pointer hover:bg-gray-100 p-2 rounded' onClick={toggleVideoModal}>
+                    <IoMdClose size={24} />
+                  </button>
+                </div>
+                <div>
+                  <form className='mt-4'>
+                    <div className='gap-3 flex flex-col'>
+                      <h1 className=''>Upload a video you google drive/ youtube/ vimeo / Loom and share the link</h1>
+                      <div className='flex-col flex gap-2 mb-3'>
+                        <label>My pitch video</label>
+                        <input type='text' className='border p-1 rounded border-black outline-none' />
+                      </div>
+                    </div>
+                    <div className='flex w-full justify-between gap-3 px-3'>
+                      <button onClick={toggleVideoModal} className='border rounded-full w-full hover:bg-[#2dabb1] hover:text-white p-2'>Cancel</button>
+                      <button type='submit' className='border bg-[#2dabb1] rounded-full w-full hover:shadow-md text-white p-2'>Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className='flex justify-between bg-white p-2 shadow-md items-center rounded'>Your Portfolio Web Link <FaPen className='cursor-pointer' onClick={togglePortfolioModal} /></div>
+          {/* Your Portfolio Web modal */}
+          {
+            isPortfolioOpen && (
+              <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'>
+                <div className='bg-white rounded-lg p-4 max-w-[450px]'>
+                  <div className='flex font-bold justify-between items-center'>
+                    Your Portfolio Web
+                    <button className='cursor-pointer hover:bg-gray-100 p-2 rounded' onClick={togglePortfolioModal}>
+                      <IoMdClose size={24} />
+                    </button>
+                  </div>
+                  <div>
+                    <form className='mt-4'>
+                      <div>Portfolio</div>
+                      <div className='flex w-full justify-between gap-3 px-3'>
+                        <button onClick={togglePortfolioModal} className='border rounded-full w-full hover:bg-[#2dabb1] hover:text-white p-2'>Cancel</button>
+                        <button type='submit' className='border bg-[#2dabb1] rounded-full w-full hover:shadow-md text-white p-2'>Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            )
+          }
         </div>
       </div>
     </DashLayout>

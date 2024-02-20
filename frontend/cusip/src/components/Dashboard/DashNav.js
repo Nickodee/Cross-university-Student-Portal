@@ -99,7 +99,7 @@ function DashNav({ onToggleAsideNav }) {
             </div>
             <hr className='border-b border-gray-300 w-full' />
             <hr className='border-b border-gray-300 w-full mt-5 mb-2' />
-            <Link to='/dashboard/room' className='text-center p-1 cursor-pointer w-full  hover:bg-gray-200 center mb-2 text-[13px]'>Read all messages</Link>
+            <Link to='/dashboard/dms' className='text-center p-1 cursor-pointer w-full  hover:bg-gray-200 center mb-2 text-[13px]'>Read all messages</Link>
           </div>
         )}
         <div className='h-9 w-9 cursor-pointer bg-black rounded-full text-white items-center justify-center flex' onClick={handleProfileClick}>NM</div>

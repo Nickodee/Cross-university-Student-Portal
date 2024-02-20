@@ -36,7 +36,7 @@ function Jobs_Updates() {
           <div className='p-2 bg-gray-200 rounded cursor-pointer'><FaPlus onClick={handlePostClicked} /></div>
           {
             isPostClicked && (
-              <div className='fixed top-12 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center' togglePost = {handlePostClicked}>
+              <div className='fixed top-0 z-20 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center' togglePost = {handlePostClicked}>
               <div className='bg-white rounded-lg p-4 max-w-[500px]'>
                 <div className='flex font-bold justify-between items-center'>
                   Create your Post
@@ -47,14 +47,14 @@ function Jobs_Updates() {
                 <div>
                   <form className='mt-4 max-h-[500px]'>
                     <div className='h-full overflow-hidden pb-1 overflow-y-scroll w-full'>
-                      <p className=' text-wrap whitespace-normal w-full'>fhsdddddddssssgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg</p>
+                      <p className=' text-wrap whitespace-normal w-full'>fgggggggggggg</p>
                     </div>
-                    <div className='w-full border-t-2 pt-2 justify-between flex gap-4 items-center'>
+                    <div className='w-full border-t-2 pt-2  md:justify-between flex-col md:flex-row gap-2 flex md:gap-4 md:items-center'>
                       <div className='flex items-center gap-3'>
-                        <CiImageOn/>
-                        <BsEmojiGrin/>
-                        <FaLink/>
-                        <LuFiles/>
+                        <CiImageOn className='cursor-pointer'/>
+                        <BsEmojiGrin className='cursor-pointer'/>
+                        <FaLink className='cursor-pointer'/>
+                        <LuFiles className='cursor-pointer'/>
                       </div>
                       <p className='flex items-center gap-2'>You are posting to <button className='underline flex items-center gap-1'>ROOM <RiArrowDropDownLine className='font-bold' size={24}/></button></p>
                       <button type='submit' className='border bg-[#2dabb1] rounded hover:shadow-md text-white p-1'>Publish</button>
