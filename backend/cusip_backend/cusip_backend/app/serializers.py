@@ -6,15 +6,26 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+        extra_kwargs = {
+            'password': {'write_only': True},  # Hide the password field in response
+        }
+
+    
+
     email = serializers.EmailField() 
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     password = serializers.CharField()
-    bio = serializers.CharField()
-    profile_picture = serializers.ImageField()
+    registration_number = serializers.CharField()
+
+    def validate(self, data):
+        if data.get('password') != data.get('confirm_password'):  # Check if password and confirm_password match
+            raise serializers.ValidationError("Passwords do not match")
+        return data
     
 
     def create(self, validated_data):
+        validated_data.pop('confirm_password')
         return User.objects.create_user(**validated_data)
 
 class UserLoginSerializer(serializers.Serializer):
