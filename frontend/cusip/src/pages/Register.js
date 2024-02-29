@@ -11,10 +11,11 @@ export default function Register() {
     last_name:'',
     email: '',
     password: '',
-    registration_number: ''
+    registration_number: '',
+    gender:''
   });
   
-  const {first_name, last_name, email, password, registration_number} = formData
+  const {first_name, last_name, email, password, registration_number, gender} = formData
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ export default function Register() {
       password,
       email,
       registration_number,
+      gender,
     }
     dispatch(register(userData))
   }
@@ -88,8 +90,11 @@ export default function Register() {
           </div>
           <div className='mt-2 flex flex-col'>
             <label>Gender</label>
-            <select
+            <select 
               className="p-2 mt-1 w-full border outline-none rounded"
+                name="gender"
+                value={gender}
+                onChange={onChange}
             >
               <option disabled>Please select</option>
               <option value="male">Male</option>
@@ -102,11 +107,6 @@ export default function Register() {
               Registration Number
             </label>
             <input className='border p-2 rounded outline-[#2dabb1]' onChange={onChange} id='registration_number' value={registration_number} type='text' placeholder='eg. scg202-0289/2025' name='registration_number'/>
-          </div>
-          <div className='flex items-center gap-3 border mt-3 p-2'>
-            <label>Upload your CV</label>
-            <button className='bg-gray-300 p-1 rounded font-bold'>Choose file</button>
-            <span>No file chosen</span>
           </div>
           <button type='submit' className='text-white font-bold items-center w-full bg-[#2dabb1] rounded mt-3 p-1'>Register</button>
         </form>

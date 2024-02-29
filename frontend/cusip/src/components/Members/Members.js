@@ -34,7 +34,7 @@ function Members() {
                         <p>I am and adept Software Engineer, with a desire to grow in coding and provide fully fledged applications that are user friendly</p>
                     </div>
                 </div>
-                <div className={`profile-sidebar ${profileVisible ? 'show' : ''}`}>
+                <div className={`profile-sidebar top-[35px] md:top-[53px] w-full md:w-[500px] ${profileVisible ? 'show' : ''}`}>
                     {/* Profile content */}
                     <div className="p-4">
                         <div className='flex justify-between items-center'>Profile <IoClose onClick={toggleProfile} className='cursor-pointer  hover:rounded hover:bg-gray-100' /></div>
@@ -81,7 +81,6 @@ function Members() {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }
