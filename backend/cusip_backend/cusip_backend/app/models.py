@@ -24,7 +24,7 @@ class User(AbstractUser):
     objects = UserManager()
 
 class Post(models.Model):
-    title = models.CharField(max_length=32)
+    title = models.CharField(max_length=80)
     description = models.CharField(max_length=164)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

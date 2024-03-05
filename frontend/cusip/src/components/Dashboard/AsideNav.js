@@ -4,7 +4,7 @@ import { MdOutlineDashboardCustomize,MdOutlineRoomService  } from 'react-icons/m
 import { IoMdChatboxes, IoIosLogOut, IoIosNotifications } from "react-icons/io";
 import { ImProfile } from "react-icons/im";
 import { GrUpdate } from "react-icons/gr";
-import { logout } from '../../features/auth/authSlice';
+import { logout } from '../../features/auth2/authSlice';
 import { useDispatch } from 'react-redux';
 import { IoSettingsOutline } from "react-icons/io5";
 

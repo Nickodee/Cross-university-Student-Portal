@@ -5,9 +5,15 @@ const API_URL = '/api/users/';
 
 // Login user
 const login = async (userData) => {
+  const token = localStorage.getItem('token')
   try {
-    const response = await axios.post(BASE_URL + API_URL + 'login', userData, {withCredentials: true});
-
+    const response = await axios.post(BASE_URL + API_URL + 'login', userData, {
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}` // Use the Token scheme as specified
+      },
+      credentials: 'include',
+    });
     if (response.data) {
       localStorage.setItem('user', JSON.stringify(response.data));
     }

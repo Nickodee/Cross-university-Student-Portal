@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
-import { register, reset } from '../features/auth/authSlice'
+import { register, reset } from '../features/auth2/authSlice'
  
 
 export default function Register() {
@@ -12,10 +12,12 @@ export default function Register() {
     email: '',
     password: '',
     registration_number: '',
-    gender:''
+    gender:'',
+    confirm_password:"",
+    username: ""
   });
   
-  const {first_name, last_name, email, password, registration_number, gender} = formData
+  const {first_name, last_name, email, password, registration_number, gender, confirm_password, username} = formData
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -50,6 +52,8 @@ export default function Register() {
       email,
       registration_number,
       gender,
+      confirm_password,
+      username,
     }
     dispatch(register(userData))
   }
@@ -87,6 +91,14 @@ export default function Register() {
           <div className='flex flex-col gap-1 mt-2'>
             <label>Password</label>
             <input className='outline-[#2dabb1] p-2 rounded border' onChange={onChange} id='password' value={password} type='password' name='password'/>
+          </div>
+          <div className='flex flex-col gap-1 mt-2'>
+            <label>Confirm Password</label>
+            <input className='outline-[#2dabb1] p-2 rounded border' onChange={onChange} id='confirm_password' value={confirm_password} type='password' name='confirm_password'/>
+          </div>
+          <div className='flex flex-col gap-1 mt-2'>
+            <label>Username</label>
+            <input className='outline-[#2dabb1] p-2 rounded border' onChange={onChange} id='username' value={username} type='text' name='username'/>
           </div>
           <div className='mt-2 flex flex-col'>
             <label>Gender</label>

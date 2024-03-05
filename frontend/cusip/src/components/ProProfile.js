@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import DashLayout from './Dashboard/DashLayout'
 import { FaPen } from "react-icons/fa";
 import { RiImageEditLine } from "react-icons/ri";
@@ -11,6 +11,8 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { FaVideo } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
+import { MdOutlineMail } from "react-icons/md";
+import authService from '../features/auth2/authService';
 
 
 
@@ -23,6 +25,24 @@ function ProProfile() {
   const [isLanguagesOpen, setIsLanguagesOpen] = useState(false)
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false)
   const [isAddVideoOpen, setIsAddVideoOpen] = useState(false)
+
+  //user data
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await authService.getAuthUser();
+        setUserData(response);
+        console.log('res', response)
+      } catch (error) {
+        console.error('Failed to fetch user data:', error.message);
+        // Handle the error appropriately, e.g., display an error message to the user
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   //open the bio modal
   const toggleBioModal = () => {
@@ -69,13 +89,17 @@ function ProProfile() {
               <div className='relative h-8 w-8 bg-white rounded-full -bottom-20 -right-24 border cursor-pointer flex items-center justify-center z-9'><RiImageEditLine /></div>
             </div>
             <div className='relative -top-7 mx-2'>
-              <div className='flex w-full justify-between items-center font-bold text-xl'>Nicodemus Muholo <FaPen onClick={toggleUserModal} className='cursor-pointer' /></div>
+              {userData ? (<>
+              <div className='flex w-full justify-between items-center font-bold text-xl'>{userData.first_name + " " +userData.last_name} <FaPen onClick={toggleUserModal} className='cursor-pointer' /></div>
               <div>
                 <div className='flex gap-2 items-center'><SlLocationPin />Nairobi,Kenya</div>
                 <div className='flex gap-2 items-center'><MdLocalPhone />+25467676272</div>
                 <div className='text-[#2dabb1]'>Graphic Designer</div>
+                <div className='flex gap-2 items-center'><MdOutlineMail/>{userData.email}</div>
                 <div className='flex gap-2 items-center'><CiLinkedin /><span>nicodemusmuholo/linkedin/co/ke</span><GoCopy /></div>
               </div>
+              </>
+              ) : (<p>Failed to</p>)}
             </div>
           </div>
           {/* Code to open the user Modal */}

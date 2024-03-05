@@ -1,28 +1,23 @@
-import {useEffect} from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../features/auth/authSlice';
 import DashHome from '../components/DashHome';
 
-
-
 function Dashboard() {
-  const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const {user} = useSelector((state) => state.auth)
+    const navigate = useNavigate();
+    const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
-      dispatch(getUser()); // Fetch the authenticated user
-    }, [dispatch]);
+        if (!user || !user.token) {
+            navigate('/pages/login');
+        }
+    }, [user, navigate]);
 
-    if  (!user){
-        return navigate('/pages/login')
-    }
-  return (
-    <>
-    <DashHome/>
-    </>
-  )
+    return (
+        <>
+            <DashHome />
+        </>
+    );
 }
 
-export default Dashboard
+export default Dashboard;

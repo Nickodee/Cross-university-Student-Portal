@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
-import { login, reset } from '../features/auth/authSlice'
+import { login, reset } from '../features/auth2/authSlice'
 
 export default function Login() {
     const  [formData, setFormData] = useState({

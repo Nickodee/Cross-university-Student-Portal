@@ -31,7 +31,7 @@ class LoginUserView(APIView):
                 userPassword = serializer.validated_data["password"]
                 if userPassword:
                     token = Token.objects.get_or_create(user=user)
-                    return Response({ "success": True, "token": token[0].key })
+                    return Response({ "success": True, "token": token[0].key, 'user_id':user.pk, 'email': user.email })
                 else:
                     return Response({ "success": False, "message": "incorrect password" })
 
