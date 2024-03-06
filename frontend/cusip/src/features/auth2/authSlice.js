@@ -6,6 +6,7 @@ const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
   user: user ? user : null,
+  users: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -47,6 +48,19 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
 export const getUser = createAsyncThunk('auth/user', async(thunkAPI) => {
   try{
     return await authService.getAuthUser()
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+//get all users
+export const getUsers= createAsyncThunk('auth/user', async(thunkAPI) => {
+  try{
+    return await authService.getAllUsers()
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -109,6 +123,12 @@ export const authSlice = createSlice({
       })
        .addCase(getUser.rejected, (state) => {
         state.user = null
+       })
+       .addCase(getUsers.fulfilled, (action,state) => {
+        state.users = action.payload
+       })
+       .addCase(getUsers.rejected, (state) => {
+        state.users = null
        })
   },
 })

@@ -51,6 +51,19 @@ const getAuthUser = async ()=>{
       }
 }
 
+//get all users
+const getAllUsers = async()=>{
+    try{
+        const resp = await axios.get(BASE_URL + '/users/')
+        return resp.data
+    }
+    catch (error) {
+        // Handle login error, e.g., display an error message
+        console.error('Login failed:', error.message);
+        throw error;
+      }
+}
+
 // Logout user
 const logout = () => {
     localStorage.removeItem('user')
@@ -61,6 +74,7 @@ const authService = {
     logout,
     login,
     getAuthUser,
+    getAllUsers,
 }
 
 export default authService

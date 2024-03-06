@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 import DashLayout from './Dashboard/DashLayout'
 import { FaPlus } from "react-icons/fa";
 import { CiBookmark,CiImageOn } from "react-icons/ci";
@@ -12,10 +13,57 @@ import { BsEmojiGrin } from "react-icons/bs";
 import { LuFiles } from "react-icons/lu";
 import { FaLink } from "react-icons/fa6";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { createNewPost, reset, retrieveAllPosts } from '../features/posts/postSlice';
+import {toast} from 'react-toastify'
+import {useNavigate} from 'react-router-dom'
+
+
 
 function Jobs_Updates() {
   const [selectedTab, setSelectedTab] = useState(false);
   const [isPostClicked, setIsPostClicked] = useState(false);
+
+  const [postData, setPostData] = useState({
+    title: '',
+    description: '',
+  })
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const {title, description} = postData
+
+  const { user } = useSelector((state) => state.auth)
+  // const {posts} = useSelector((state) => state.posts)
+
+
+  const onChange = (e) => {
+    setPostData((prevState)=>({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // useEffect(() => {
+  //   if(isPostError) {
+  //     toast.error(message)
+  //   }
+  //   if(isPostSuccess) {
+  //     navigate('/pages/job_update')
+  //     toast.success('successfully  registered!')
+  //   }
+  // }, [posts, isPostError, isPostSuccess, message, navigate])
+
+  const onPostSubmit = (e) => {
+    e.preventDefault();
+
+    const postData = {
+      title,
+      description
+    }
+    dispatch(createNewPost(postData))
+  }
+
 
   const handleButtonClick = () => {
     setSelectedTab(!selectedTab);
@@ -45,8 +93,10 @@ function Jobs_Updates() {
                   </button>
                 </div>
                 <div>
-                  <form className='mt-4 max-h-[500px]'>
+                  <form className='mt-2 max-h-[500px]' onSubmit={onPostSubmit}>
                     <div className='h-full overflow-hidden pb-1 overflow-y-scroll w-full'>
+                      <input type='text' placeholder='Write your title' id='post_title' onChange={onChange} value={title} name="title" className='outline-none p-1 w-full border-b-2'/>
+                      <input type='text' placeholder='Enter the title description' id='post_description' onChange={onChange} value={description} name="description" className='outline-none border-b-2 p-1 w-full'/>
                       <p className=' text-wrap whitespace-normal w-full'>fgggggggggggg</p>
                     </div>
                     <div className='w-full border-t-2 pt-2  md:justify-between flex-col md:flex-row gap-2 flex md:gap-4 md:items-center'>
