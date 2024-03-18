@@ -7,34 +7,52 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { SlLike } from "react-icons/sl";
 import { GoComment } from "react-icons/go";
 import Comments from './Job_Updates/Comments';
-import Debate from '../assets/Debate.png'
 import { IoMdClose } from "react-icons/io";
 import { BsEmojiGrin } from "react-icons/bs";
 import { LuFiles } from "react-icons/lu";
+import { MdPhotoSizeSelectLarge } from "react-icons/md";
 import { FaLink } from "react-icons/fa6";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { createNewPost, reset, retrieveAllPosts } from '../features/posts/postSlice';
 import {toast} from 'react-toastify'
 import {useNavigate} from 'react-router-dom'
+import postService from '../features/posts/postService';
 
 
 
 function Jobs_Updates() {
   const [selectedTab, setSelectedTab] = useState(false);
   const [isPostClicked, setIsPostClicked] = useState(false);
+  const [posts, setPosts] =  useState(null)
+
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await postService.retrievePosts();
+        setPosts(response);
+        console.log('posts', response)
+      } catch (error) {
+        console.error('Failed to fetch posts:', error.message);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const [postData, setPostData] = useState({
     title: '',
     description: '',
+    image: '',
+    content: ''
   })
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const {title, description} = postData
+  const {title, description,image,content} = postData
 
   const { user } = useSelector((state) => state.auth)
-  // const {posts} = useSelector((state) => state.posts)
 
 
   const onChange = (e) => {
@@ -44,22 +62,15 @@ function Jobs_Updates() {
     }))
   }
 
-  // useEffect(() => {
-  //   if(isPostError) {
-  //     toast.error(message)
-  //   }
-  //   if(isPostSuccess) {
-  //     navigate('/pages/job_update')
-  //     toast.success('successfully  registered!')
-  //   }
-  // }, [posts, isPostError, isPostSuccess, message, navigate])
 
   const onPostSubmit = (e) => {
     e.preventDefault();
 
     const postData = {
       title,
-      description
+      description,
+      image,
+      content
     }
     dispatch(createNewPost(postData))
   }
@@ -95,9 +106,10 @@ function Jobs_Updates() {
                 <div>
                   <form className='mt-2 max-h-[500px]' onSubmit={onPostSubmit}>
                     <div className='h-full overflow-hidden pb-1 overflow-y-scroll w-full'>
+                      <div className='flex items-center gap-3'>Add a cover Photo <MdPhotoSizeSelectLarge className='cursor-pointer text-[#2dabb1]'/></div>
                       <input type='text' placeholder='Write your title' id='post_title' onChange={onChange} value={title} name="title" className='outline-none p-1 w-full border-b-2'/>
                       <input type='text' placeholder='Enter the title description' id='post_description' onChange={onChange} value={description} name="description" className='outline-none border-b-2 p-1 w-full'/>
-                      <p className=' text-wrap whitespace-normal w-full'>fgggggggggggg</p>
+                      <textarea className=' text-wrap whitespace-normal w-full outline-none mt-3' value={content} name='content' onChange={onChange}></textarea>
                     </div>
                     <div className='w-full border-t-2 pt-2  md:justify-between flex-col md:flex-row gap-2 flex md:gap-4 md:items-center'>
                       <div className='flex items-center gap-3'>
@@ -117,11 +129,11 @@ function Jobs_Updates() {
           }
         </div>
         <div className='mt-4'>
+        {posts && posts.map(post => (
           <div className='bg-white p-2 rounded'>
             <div className='max-h-96'>
-              <img src={Debate} alt='' className='max-h-96 object-cover w-full'  />
+              {post.image}
             </div>
-
             <div className='flex justify-between items-center'>
               <div className='flex gap-3 items-center'>
                 <div className='bg-[#2aabb1] h-10 w-10 rounded'></div>
@@ -133,8 +145,11 @@ function Jobs_Updates() {
               <div className='flex items-center gap-3'><CiBookmark /> <HiOutlineDotsVertical /></div>
             </div>
             <div>
-              <h1 className='font-bold mt-3'>Title Here</h1>
-              <p className='mt-3'>You text goes here</p>
+              <h1 className='font-bold mt-2'>{post.title}</h1>
+              <p className='mt-2 text-[13px]'>{post.description}</p>
+              <div className='mt-3'>
+                {post.content}
+              </div>
             </div>
             <div className='flex w-full justify-between items-center mt-4'>
               <div className='flex gap-3 items-center '>
@@ -149,6 +164,7 @@ function Jobs_Updates() {
               )}
             </div>
           </div>
+        ))}
         </div>
       </div>
     </DashLayout>

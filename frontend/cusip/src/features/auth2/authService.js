@@ -7,11 +7,9 @@ const API_URL = '/user/'
 // Register user
 const register = async (userData) => {
     const response = await axios.post(BASE_URL + API_URL + 'create', userData)
-
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
     }
-
     return response.data
 }
 
@@ -19,14 +17,15 @@ const register = async (userData) => {
 const login = async (userData) => {
     try {
         const response = await axios.post(BASE_URL + API_URL + 'login', userData,)
+        console.log('resp', response)
         if (response.data.success) {
             localStorage.setItem('user', JSON.stringify(response.data))
+            return response.data
         } else {
             const errorMessage = response.data.message || 'Invalid email or password';
             console.error('Login failed:', errorMessage);
             throw new Error(errorMessage);
         }
-        return response.data
     } catch (error) {
         // Handle login error, e.g., display an error message
         console.error('Login failed:', error.message);
@@ -41,12 +40,10 @@ const getAuthUser = async ()=>{
     const user_id = user.user_id
     try{
         const response = await axios.get(BASE_URL + '/user/' + user_id,)
-        console.log("user data", response.data)
         return response.data
     }
     catch (error) {
-        // Handle login error, e.g., display an error message
-        console.error('Login failed:', error.message);
+        console.error('Failed to get user details:', error.message);
         throw error;
       }
 }
@@ -58,8 +55,7 @@ const getAllUsers = async()=>{
         return resp.data
     }
     catch (error) {
-        // Handle login error, e.g., display an error message
-        console.error('Login failed:', error.message);
+        console.error('Failed to get users:', error.message);
         throw error;
       }
 }

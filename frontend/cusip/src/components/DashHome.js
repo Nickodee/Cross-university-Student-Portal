@@ -22,7 +22,6 @@ function DashHome() {
         try {
           const response = await authService.getAuthUser();
           setUserData(response);
-          console.log('res', response)
         } catch (error) {
           console.error('Failed to fetch user data:', error.message);
           // Handle the error appropriately, e.g., display an error message to the user

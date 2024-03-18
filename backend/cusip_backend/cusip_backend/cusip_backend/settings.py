@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
@@ -63,6 +64,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cusip_backend.wsgi.application'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 900,
+    },
+}
+
 
 
 # Database

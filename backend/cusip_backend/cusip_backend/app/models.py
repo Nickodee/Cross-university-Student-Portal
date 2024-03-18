@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from app.manager import UserManager
+from ckeditor.fields import RichTextField
+
 
 class User(AbstractUser):
     username = None
@@ -27,6 +29,8 @@ class Post(models.Model):
     title = models.CharField(max_length=80)
     description = models.CharField(max_length=164)
     created_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='post_images/', blank=True, null=True)
+    content = RichTextField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 

@@ -8,7 +8,7 @@ function Dashboard() {
     const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        if (!user || !user.token) {
+        if (!user) {
             navigate('/pages/login');
         }
     }, [user, navigate]);

@@ -58,7 +58,7 @@ export const getUser = createAsyncThunk('auth/user', async(thunkAPI) => {
 })
 
 //get all users
-export const getUsers= createAsyncThunk('auth/user', async(thunkAPI) => {
+export const getUsers= createAsyncThunk('auth/users', async(thunkAPI) => {
   try{
     return await authService.getAllUsers()
   } catch (error) {
