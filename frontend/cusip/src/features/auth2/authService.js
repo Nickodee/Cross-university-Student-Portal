@@ -60,6 +60,18 @@ const getAllUsers = async()=>{
       }
 }
 
+//update user
+const updateUserProfile = async(userData)=>{
+    try{
+        const resp = await axios.post(BASE_URL + '/user/update', userData)
+        return resp.data
+    }
+    catch (error) {
+        console.error('Failed to update the user details:', error.message);
+        throw error;
+      }
+}
+
 // Logout user
 const logout = () => {
     localStorage.removeItem('user')
@@ -71,6 +83,7 @@ const authService = {
     login,
     getAuthUser,
     getAllUsers,
+    updateUserProfile,
 }
 
 export default authService

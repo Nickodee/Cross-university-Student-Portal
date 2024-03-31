@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from app.views.user import CreateUser, LoginUserView,RetrieveUser, UpdateUser,DestroyUser, LogoutUser,GetAllUsersView
 from app.views.post import CommentPost, CreatePost, DestroyPost, FollowUser,GetAllPostsView, RetrievePost, RetrieveUserPosts, UpdatePost, LikePost
+from app.views.chats import SendMessage, RetrieveMessage, GetAllMessagesView, UpdateMessage, DestroyMessage, RetrieveUserMessages
 
 urlpatterns = [
     path('user/create', CreateUser.as_view()),
@@ -24,5 +25,12 @@ urlpatterns = [
 
 
     path('post/comment/<int:pk>/', CommentPost.as_view()),
-    path('post/comments/<int:pk>/', CommentPost.as_view())
+    path('post/comments/<int:pk>/', CommentPost.as_view()),
+
+    path('message/send/', SendMessage.as_view()),
+    path('message/<int:pk>/', RetrieveMessage.as_view()),
+    path('messages/', GetAllMessagesView.as_view()),
+    path('message/update/<int:pk>/', UpdateMessage.as_view()),
+    path('message/delete/<int:pk>/', DestroyMessage.as_view()),
+    path('user/messages/', RetrieveUserMessages.as_view()),
 ]

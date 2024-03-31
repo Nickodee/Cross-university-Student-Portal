@@ -7,9 +7,8 @@ import { FiUser } from "react-icons/fi";
 import { Link } from 'react-router-dom'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
-
-
-
+import { useSelector } from 'react-redux';
+import authService from '../../features/auth2/authService';
 
 
 function DashNav({ onToggleAsideNav }) {
@@ -31,6 +30,22 @@ function DashNav({ onToggleAsideNav }) {
     setIsDotsClicked(!isDotsClicked)
   }
 
+  //user data
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await authService.getAuthUser();
+        setUserData(response);
+      } catch (error) {
+        console.error('Failed to fetch user data:', error.message);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   //handle is profile clicked
   const handleProfileClick = () => {
     setIsProfileClicked(!isProfileClicked);
@@ -44,6 +59,8 @@ function DashNav({ onToggleAsideNav }) {
     setIsMessageClicked(false)
     setIsProfileClicked(false)
   };
+
+    
 
 
   //To handle removal of the divs when someone clicks anywhere outside the in the page
@@ -102,7 +119,7 @@ function DashNav({ onToggleAsideNav }) {
             <Link to='/dashboard/dms' className='text-center p-1 cursor-pointer w-full  hover:bg-gray-200 center mb-2 text-[13px]'>Read all messages</Link>
           </div>
         )}
-        <div className='h-9 w-9 cursor-pointer bg-black rounded-full text-white items-center justify-center flex' onClick={handleProfileClick}>NM</div>
+        {userData ? (<div className='h-9 w-9 cursor-pointer bg-black rounded-full text-white items-center justify-center flex font-bold text-[20px]' onClick={handleProfileClick}>{userData.first_name ? userData.first_name.charAt(0).toUpperCase() : ''}{userData.last_name ? userData.last_name.charAt(0).toUpperCase() : ''}</div>): (<div>NM</div>)}
         {isProfileClicked && (
           <div className='fixed items-center flex flex-col z-10 right-0 md:right-9 md:top-12 top-32  bg-white shadow-lg border  rounded w-full md:w-[200px]'>
             <Link to="/dashboard/profile" className='cursor-pointer flex gap-2 items-center my-2 w-full  p-2 hover:bg-slate-200'><FiUser /> Edit Profile</Link>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import DashLayout from './Dashboard/DashLayout'
 import { FaPlus } from "react-icons/fa6";
 import { MdOutlineEmojiEmotions, MdAddLink, MdGifBox } from "react-icons/md";
@@ -6,11 +6,22 @@ import { CiImageOn, CiLink } from "react-icons/ci";
 import { GoPaperclip } from "react-icons/go";
 import { AiOutlineAudio } from "react-icons/ai";
 import { FiSend } from "react-icons/fi";
+import authService from '../features/auth2/authService';
 
 
 function DMs() {
   const [selectedTab, setSelectedTab] = useState('About');
   const [showTextUser, setShowTextUser] = useState('Details')
+  const [message, setMessage] = useState('');
+
+  const handleMessageSend = () => {
+    const messageInput = document.getElementById('messageInput');
+    const newMessage = messageInput.value.trim();
+    if (newMessage !== '') {
+      setMessage(newMessage);
+      messageInput.value = '';
+    }
+  };
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -19,6 +30,53 @@ function DMs() {
   const handleShowText = (textTab) => {
     setShowTextUser(textTab)
   }
+
+
+  const [query, setQuery] = useState('');
+  const [membersDetails, setMembersDetails] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState([]);
+  const [selectedMemberIds, setSelectedMemberIds] = useState([]);
+
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await authService.getAllUsers();
+        setMembersDetails(response);
+        setFilteredMembers(response); // Initialize filtered members with all members
+        console.log('members', response);
+      } catch (error) {
+        console.error('Failed to fetch members:', error.message);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    setQuery(inputValue);
+
+    // Filter members based on the input value
+    const filtered = membersDetails.filter(member =>
+      member.first_name.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    setFilteredMembers(filtered);
+  };
+
+  const handleUserSelect = (user) => {
+    // Check if the selected user is already in the selectedMemberIds
+    if (!selectedMemberIds.includes(user.id)) {
+      setSelectedMemberIds(prevIds => [...prevIds, user.id]);
+      setQuery('');
+      setFilteredMembers([]); // Clear filtered members
+    }
+  };
+
+  const handleRemoveSelectedMember = (id) => {
+    setSelectedMemberIds(prevIds => prevIds.filter(memberId => memberId !== id));
+  };
+
   return (
     <DashLayout>
       <div>
@@ -95,14 +153,42 @@ function DMs() {
                 {
                   <div className='flex flex-col'>
                     <h1 className='ml-2'>New Message</h1>
-                    <div className='p-2 border-b-2 border-t-2 flex gap-1'>
-                      To: <input type='text' placeholder='Start typing name' className='w-full outline-none' />
+                    <div className='p-2 border-b-2 border-t-2 flex items-center gap-2'>
+                      To:
+                      {selectedMemberIds.map(id => {
+                        const selectedMember = membersDetails.find(member => member.id === id);
+                        return (
+                          <div key={id} className="flex gap-2 bg-gray-100 rounded items-center px-2">
+                            <div className='flex gap-1 '>
+                            <span>{selectedMember.first_name}</span> <span>{selectedMember.last_name}</span></div>
+                            <button onClick={() => handleRemoveSelectedMember(id)} className='font-bold text-[24px]'>×</button>
+                          </div>
+                        );
+                      })}
+                      <input
+                        type='text'
+                        placeholder='Start typing name'
+                        className='w-full outline-none'
+                        value={query}
+                        onChange={handleInputChange}
+                      />
                     </div>
+                    {query && (
+                      <div className="bg-white z-10 shadow-md rounded overflow-y-scroll">
+                        <ul className='cursor-pointer'>
+                          {filteredMembers.map(member => (
+                            <li key={member.id} onClick={() => handleUserSelect(member)}>
+                              {member.first_name} {member.last_name}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                     <div className='h-full w-full overflow-y-scroll overflow-hidden p-2'>
-                      Hello James
+                      <p>{message}</p>
                     </div>
                     <div className='m-2 p-2 border rounded'>
-                      <input type='text' placeholder='Type a message' className='outline-none w-full' />
+                      <input type='text' id='messageInput' placeholder='Type a message' className='outline-none w-full' />
                       <div className='flex justify-between'>
                         <div className='flex items-center gap-2'>
                           <MdOutlineEmojiEmotions className='cursor-pointer' />
@@ -112,7 +198,7 @@ function DMs() {
                           <GoPaperclip className='cursor-pointer' />
                           <AiOutlineAudio className='cursor-pointer' />
                         </div>
-                        <FiSend className='cursor-pointer'/>
+                        <FiSend className='cursor-pointer' onClick={handleMessageSend} />
                       </div>
                     </div>
                   </div>

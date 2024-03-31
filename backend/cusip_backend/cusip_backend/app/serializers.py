@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import User,Post,PostComment,PostLike,UserFollow
+from app.models import User,Post,PostComment,PostLike,UserFollow, Message
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,3 +77,7 @@ class UserFollowSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     follows_id = serializers.PrimaryKeyRelatedField(read_only=True)
 
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['id', 'sender', 'receiver', 'content', 'timestamp']

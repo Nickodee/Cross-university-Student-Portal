@@ -13,6 +13,8 @@ import { IoMdClose } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
 import { MdOutlineMail } from "react-icons/md";
 import authService from '../features/auth2/authService';
+import {useSelector, useDispatch} from 'react-redux'
+import { updateUser } from '../features/auth2/authSlice';
 
 
 
@@ -29,12 +31,34 @@ function ProProfile() {
   //user data
   const [userData, setUserData] = useState(null)
 
+  const [updateFormData, setUpdateFormData] = useState({
+    bio:'',
+  })
+  const dispatch = useDispatch()
+  const {bio} =  updateFormData
+
+
+  const onChange = (e) => {
+    setUpdateFormData((prevState)=>({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const onUpdateSubmit = (e) => {
+    e.preventDefault();
+
+    const updateData = {
+      bio
+    }
+    dispatch(updateUser(updateData))
+  }
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await authService.getAuthUser();
         setUserData(response);
-        console.log('res', response)
       } catch (error) {
         console.error('Failed to fetch user data:', error.message);
         // Handle the error appropriately, e.g., display an error message to the user
@@ -163,7 +187,8 @@ function ProProfile() {
           )}
           <div className='w-full bg-white rounded mt-3 p-3'>
             <div className='flex justify-between font-bold'>Bio <FaPen className='cursor-pointer' onClick={toggleBioModal} /></div>
-            <div>Bio data goes here...</div>
+            {userData? (
+            <div>{userData.bio}</div>): ('')}
           </div>
           {/* Code to open the Bio Modal */}
           {isBioOpen && (
@@ -177,8 +202,8 @@ function ProProfile() {
                 </div>
                 <div>
                   <p>Let everyone know you a little bit better, share your experience and goals writing a quick story about yourself</p>
-                  <form className='mt-4'>
-                    <textarea placeholder='Give us your bio...' className=' h-[200px] p-2 outline-[#2dabb1] w-full border rounded' />
+                  <form className='mt-4' onSubmit={onUpdateSubmit}>
+                    <textarea placeholder='Give us your bio...' onChange={onChange} name='bio' value={bio} id='bio' className=' h-[200px] p-2 outline-[#2dabb1] w-full border rounded' />
                     <div className='flex w-full justify-between gap-3 px-3'>
                       <button onClick={toggleBioModal} className='border rounded-full w-full hover:bg-[#2dabb1] hover:text-white p-2'>Cancel</button>
                       <button type='submit' className='border bg-[#2dabb1] rounded-full w-full hover:shadow-md text-white p-2'>Save</button>

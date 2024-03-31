@@ -33,7 +33,7 @@ class Post(models.Model):
     content = RichTextField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-
+ 
 class PostLike(models.Model):
     post = models.ForeignKey(Post, null=False, on_delete=models.CASCADE)
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
@@ -51,3 +51,9 @@ class PostComment(models.Model):
 class UserFollow(models.Model):
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE, related_name="src_follow")
     follows = models.ForeignKey(User, null=False, on_delete=models.CASCADE, related_name="dest_follow")
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
