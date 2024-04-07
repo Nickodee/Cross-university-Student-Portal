@@ -56,7 +56,7 @@ function Home() {
               >
                 <ul className="h-screen md:h-auto items-center justify-center md:flex ">
                   <li className="pb-6 text-xl py-2 md:px-6 text-center border-b-2 md:border-b-0">
-                    <a href="#post" className='hover:text-[#2dabb1]' onClick={() => setNavbar(!navbar)}>
+                    <a href="/pages/post" className='hover:text-[#2dabb1]' onClick={() => setNavbar(!navbar)}>
                       POST
                     </a>
                   </li>

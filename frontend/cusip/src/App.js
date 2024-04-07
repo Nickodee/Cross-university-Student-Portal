@@ -12,6 +12,7 @@ import Notifications from './components/Notifications';
 import Settings from './components/Settings';
 import DMs from './components/DMs';
 import Rooms from './components/Rooms/Rooms';
+import Post from './pages/Post';
 
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <Route path='' element={<Home/>}/>
         <Route path='/pages/login' element={<Login/>}/>
         <Route path='/pages/register' element ={<Register/>}/>
+        <Route path='/pages/post' element={<Post/>} />
         <Route path='/pages/dashboard' element ={<Dashboard/>}/>
         <Route path='/dashboard/dashhome' element={<DashHome/>}/>
         <Route path='/dashboard/profile' element={<ProProfile/>}/>

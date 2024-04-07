@@ -6,6 +6,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import { login, reset } from '../features/auth2/authSlice'
+import { IoIosArrowBack } from "react-icons/io";
+
 
 export default function Login() {
     const  [formData, setFormData] = useState({
@@ -50,6 +52,7 @@ export default function Login() {
                 <img src={LightBulb} className='absolute top-0 left-0 right-0 w-full h-full object-cover'/>
             <div className='w-[80%] h-[80%] rounded p-5 bg-white border shadow flex justify-center items-center z-10'>
                 <div className='w-full md:w-1/2 pl-3 sm:pl-14 justify-center flex flex-col p-5 sm:p-10'>
+                    <a href="/" className='flex items-center hover:text-[#2dabb1]'><IoIosArrowBack/> Back Home</a>
                     <form onSubmit={onSubmit}>
                     <h1 className='text-xl font-bold'>Sign In</h1>
                     <div className='flex flex-col pt-3'>
@@ -75,7 +78,7 @@ export default function Login() {
                     
                 </div>
                 <div className='w-1/2 hidden md:block shadow rounded-md h-full'>
-                    <img src={Laptop} className='w-full h-full object-cover'/>
+                    <img src={Laptop} className='w-full h-full object-cover transition-transform transform hover:scale-105'/>
                 </div>
             </div>
         </div>

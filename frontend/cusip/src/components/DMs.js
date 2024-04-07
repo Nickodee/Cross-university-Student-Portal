@@ -7,28 +7,42 @@ import { GoPaperclip } from "react-icons/go";
 import { AiOutlineAudio } from "react-icons/ai";
 import { FiSend } from "react-icons/fi";
 import authService from '../features/auth2/authService';
+import { IoIosSend } from "react-icons/io";
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserMessages, sendMessage } from '../features/chats/chatSlice';
 
 
 function DMs() {
   const [selectedTab, setSelectedTab] = useState('About');
   const [showTextUser, setShowTextUser] = useState('Details')
   const [message, setMessage] = useState('');
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [sentMessages, setSentMessages] = useState([]);
+  const [showCounters, setShowCounters] = useState({});
 
-  const handleMessageSend = () => {
-    const messageInput = document.getElementById('messageInput');
-    const newMessage = messageInput.value.trim();
-    if (newMessage !== '') {
-      setMessage(newMessage);
-      messageInput.value = '';
-    }
+  //Handle Messages fetching
+  const dispatch = useDispatch();
+
+
+  //get auth user id
+  const userFromStorage = localStorage.getItem('user');
+  const user = JSON.parse(userFromStorage)
+  const user_id = user.user_id
+
+  // Function to get the sender's name based on their ID
+  const getSenderName = (senderId) => {
+    const sender = membersDetails.find(member => member.id === senderId);
+    return sender ? `${sender.first_name} ${sender.last_name}` : 'Unknown Sender';
   };
+
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
 
-  const handleShowText = (textTab) => {
+  const handleShowText = (textTab, message) => {
     setShowTextUser(textTab)
+    setSelectedMessage(message);
   }
 
 
@@ -64,6 +78,32 @@ function DMs() {
     setFilteredMembers(filtered);
   };
 
+  //handle data send to the message endpoint
+  const handleMessageSend = () => {
+
+    if (!message) {
+      console.error('Message is missing.');
+      return;
+    }
+    const messageData = {
+      sender: user_id,
+      receiver: selectedMemberIds[0],
+      content: message
+    }
+
+    console.log("Message Data:", messageData);
+
+    // Dispatch the action to send the message
+    dispatch(sendMessage(messageData));
+    // Update the sent messages state
+    setSentMessages(prevMessages => [...prevMessages, messageData]);
+
+    // Clear the message input after sending
+    setMessage('');
+  };
+
+
+
   const handleUserSelect = (user) => {
     // Check if the selected user is already in the selectedMemberIds
     if (!selectedMemberIds.includes(user.id)) {
@@ -77,21 +117,62 @@ function DMs() {
     setSelectedMemberIds(prevIds => prevIds.filter(memberId => memberId !== id));
   };
 
+
+
+  useEffect(() => {
+    dispatch(getUserMessages());
+  }, [dispatch]);
+
+  const { messages, isLoading, isSuccess, isError } = useSelector(state => state.chat);
+  console.log("messages", messages)
+
+  //Handle Messages fetching
+
+
+  // Function to get the sender's initials based on their ID
+  const getSenderInitials = (senderId) => {
+    const sender = membersDetails.find(member => member.id === senderId);
+    return sender ? `${sender.first_name.charAt(0).toUpperCase()} ${sender.last_name.charAt(0).toUpperCase()}` : 'Unknown Sender';
+  }
+
   return (
     <DashLayout>
       <div>
-        <div className=' rounded-md md:gap-0 gap-2 flex md:flex-row flex-col justify-between my-2 w-full bg-white shadow-lg max-h-screen '>
+        <div className=' rounded-md md:gap-0 gap-2 flex md:flex-row flex-col justify-between my-2 w-full bg-white shadow-lg max-h-screen'>
           <div className=' md:border-b-0 border-b-2 md:w-[400px] w-full border-r-0 md:border-r-2 p-3'>
             <div className='flex justify-between border-b-2 p-1'>Direct Messages <FaPlus className='cursor-pointer' onClick={() => handleShowText('TextUser')} /></div>
-            <div className='overflow-y-scroll flex flex-col gap-2  overflow-hidden pr-2'>
+            <div className='overflow-y-scroll flex flex-col gap-2 overflow-hidden pr-2'>
               <button className='hover:underline mt-2 hover:text-[#2dabb1]'>Inbox</button>
-              <div className='flex cursor-pointer items-center gap-4 bg-slate-500 text-white p-2 rounded' onClick={() => handleShowText('Details')}>
-                <div className='h-9 w-9 bg-[#2dabb1] rounded-md flex items-center justify-center'>NM</div>
-                <div>
-                  <h1 className='gap-3'>James <span className='text-slate-400'>2 Days ago</span></h1>
-                  <p>Hi Text, I would to...</p>
-                </div>
-              </div>
+              {isSuccess && messages && messages.messages && messages.messages.length > 0 && (
+                // Group messages by sender
+                Object.values(
+                  messages.messages.reduce((acc, message) => {
+                    if (!acc[message.sender]) {
+                      acc[message.sender] = [];
+                    }
+                    acc[message.sender].push(message);
+                    return acc;
+                  }, {})
+                ).map((messagesGroup, index) => {
+                  
+                  const senderId = messagesGroup[0].sender;
+                  const messageCounter = messagesGroup.length;
+                  return (
+                    // Render each group of messages
+                    <div key={index} className='flex cursor-pointer items-center gap-4 bg-slate-500 text-white p-2 rounded' onClick={() => handleShowText('Details', messagesGroup[0])}>
+                      <div className='h-9 w-9 bg-[#2dabb1] rounded-md flex items-center justify-center font-bold'>{getSenderInitials(senderId)}</div>
+                      <div>
+                        <h1>{getSenderName(senderId)}</h1>
+                        <p>{messagesGroup[0].content}</p>
+                        {showTextUser !== 'Details' && showCounters[senderId] && (
+                          // Render the counter only when not displaying message details and showCounter is true
+                          <span>({messageCounter})</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
           <div className='flex w-full'>
@@ -100,10 +181,13 @@ function DMs() {
                 <div className='flex md:border-b-0  border-b-2 flex-col md:border-r-2 items-center w-full'>
                   <p className='font-bold text-center w-full border-b-2'>James Malimba</p>
                   <div className='overflow-hidden h-full overflow-y-scroll w-full px-2'>
-                    I have seen you love programming I would...
+                    <p>I have seen you love programming I would...</p>
                   </div>
                   <div className='w-full pb-1 flex flex-col gap-2'>
-                    <input type="text" placeholder="Type a message..." className='outline-none border w-full text-wrap py-2 px-4 shadow-sm' />
+                    <div className='flex items-center border'>
+                      <input type="text" placeholder="Type a message..." className='outline-none w-full text-wrap py-2 px-2' />
+                      <IoIosSend className='text-[24px] mr-1 cursor-pointer' />
+                    </div>
                     <div className='flex items-center mx-2 gap-2'>
                       <MdOutlineEmojiEmotions className='cursor-pointer' />
                       <CiImageOn className='cursor-pointer' />
@@ -160,7 +244,7 @@ function DMs() {
                         return (
                           <div key={id} className="flex gap-2 bg-gray-100 rounded items-center px-2">
                             <div className='flex gap-1 '>
-                            <span>{selectedMember.first_name}</span> <span>{selectedMember.last_name}</span></div>
+                              <span>{selectedMember.first_name}</span> <span>{selectedMember.last_name}</span></div>
                             <button onClick={() => handleRemoveSelectedMember(id)} className='font-bold text-[24px]'>×</button>
                           </div>
                         );
@@ -185,10 +269,12 @@ function DMs() {
                       </div>
                     )}
                     <div className='h-full w-full overflow-y-scroll overflow-hidden p-2'>
-                      <p>{message}</p>
+                      {sentMessages && sentMessages.map((msg, index) => (
+                        <p key={index}>{msg.content}</p>
+                      ))}
                     </div>
                     <div className='m-2 p-2 border rounded'>
-                      <input type='text' id='messageInput' placeholder='Type a message' className='outline-none w-full' />
+                      <input type='text' id='messageInput' placeholder='Type a message' value={message} onChange={(e) => setMessage(e.target.value)} className='outline-none w-full' />
                       <div className='flex justify-between'>
                         <div className='flex items-center gap-2'>
                           <MdOutlineEmojiEmotions className='cursor-pointer' />
