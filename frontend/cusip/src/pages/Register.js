@@ -18,6 +18,9 @@ export default function Register() {
     confirm_password:"",
     username: ""
   });
+
+  const [errors, setErrors] = useState({});
+  const [passwordStrength, setPasswordStrength] = useState('weak');
   
   const {first_name, last_name, email, password, registration_number, gender, confirm_password, username} = formData
 
@@ -44,28 +47,73 @@ export default function Register() {
       ...prevState,
       [e.target.name]: e.target.value,
     }))
+
+    setErrors({});
   }
+
+  const validateForm = () => {
+    const errors = {};
+
+    if (!first_name) {
+      errors.first_name = 'First name is required';
+    } else if (!/^[a-zA-Z]+$/.test(first_name)) {
+      errors.first_name = 'First name should not contain numbers';
+    }
+    if (!last_name) {
+      errors.last_name = 'Last name is required';
+    } else if (!/^[a-zA-Z]+$/.test(last_name)) {
+      errors.last_name = 'Last name should not contain numbers';
+    }
+    if (!email) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Invalid email format';
+    }
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters long';
+    } else if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(password)) {
+      errors.password = 'Password must contain at least one number, one lowercase and one uppercase letter';
+    }
+    if (!confirm_password) {
+      errors.confirm_password = 'Confirm password is required';
+    } else if (password !== confirm_password) {
+      errors.confirm_password = "Passwords don't match";
+    }
+
+    if (!username) {
+      errors.username = 'Username is required';
+    }
+    if (!registration_number) {
+      errors.registration_number = 'Registration number is required';
+    }
+
+    return errors;
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // Check if passwords match
-    if (password !== confirm_password) {
-      toast.error("Passwords don't match");
-      return;
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length === 0) {
+      const userData = {
+        first_name,
+        last_name,
+        password,
+        email,
+        registration_number,
+        gender,
+        confirm_password,
+        username,
+      };
+      dispatch(register(userData));
+    } else {
+      setErrors(formErrors);
+      toast.error('Please fill in all required fields correctly.');
     }
+  };
 
-    const userData = {
-      first_name,
-      last_name,
-      password,
-      email,
-      registration_number,
-      gender,
-      confirm_password,
-      username,
-    }
-    dispatch(register(userData))
-  }
   return (
     <div className='min-h-screen overflow-hidden'>
       <div className="hidden sm:block bg-gradient-to-r from-blue-400 via-blue-600 to-blue-900 p-4 h-60 ">
@@ -105,27 +153,33 @@ export default function Register() {
             <div className='flex flex-col w-full'>
               <label>First Name <span className='text-red-400'>*</span></label>
               <input type="text" id='first_name' onChange={onChange} value={first_name} name="first_name" className='p-2 mt-1 border outline-[#2dabb1]' />
+              {errors.first_name && <p className="text-red-500">{errors.first_name}</p>}
             </div>
             <div className='flex flex-col w-full'>
               <label>Last Name <span className='text-red-400'>*</span></label>
               <input type="text" id='last_name' value={last_name} onChange={onChange} name="last_name" className='p-2 mt-1 border outline-[#2dabb1]' />
+              {errors.last_name && <p className="text-red-500">{errors.last_name}</p>}
             </div>
           </div>
           <div className='flex flex-col gap-1 mt-2'>
             <label>Email Address <span className='text-red-400'>*</span></label>
             <input className='outline-[#2dabb1] p-2 rounded border' onChange={onChange} value={email} id='email' type='email' name='email' placeholder='eg. cusip@gmail.com' />
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
           </div>
           <div className='flex flex-col gap-1 mt-2'>
             <label>Password <span className='text-red-400'>*</span></label>
             <input className='outline-[#2dabb1] p-2 rounded border' onChange={onChange} id='password' value={password} type='password' name='password'/>
+            {errors.password && <p className="text-red-500">{errors.password}</p>}
           </div>
           <div className='flex flex-col gap-1 mt-2'>
             <label>Confirm Password <span className='text-red-400'>*</span></label>
             <input className='outline-[#2dabb1] p-2 rounded border' onChange={onChange} id='confirm_password' value={confirm_password} type='password' name='confirm_password'/>
+            {errors.confirm_password && <p className="text-red-500">{errors.confirm_password}</p>}
           </div>
           <div className='flex flex-col gap-1 mt-2'>
-            <label>Username</label>
+            <label>Username <span className='text-red-400'>*</span></label>
             <input className='outline-[#2dabb1] p-2 rounded border' onChange={onChange} id='username' value={username} type='text' name='username'/>
+            {errors.username && <p className="text-red-500">{errors.username}</p>}
           </div>
           <div className='mt-2 flex flex-col'>
             <label>Gender</label>
@@ -143,9 +197,10 @@ export default function Register() {
           </div>
           <div className='flex flex-col mt-2 gap-1'>
             <label>
-              Registration Number
+              Registration Number <span className='text-red-400'>*</span>
             </label>
             <input className='border p-2 rounded outline-[#2dabb1]' onChange={onChange} id='registration_number' value={registration_number} type='text' placeholder='eg. scg202-0289/2025' name='registration_number'/>
+            {errors.registration_number && <p className="text-red-500">{errors.registration_number}</p>}
           </div>
           <button type='submit' className='text-white font-bold items-center w-full bg-[#2dabb1] rounded mt-3 p-1'>Register</button>
         </form>

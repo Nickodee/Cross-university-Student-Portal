@@ -10,6 +10,7 @@ const createPost = async (postData) => {
             'Authorization': `Token ${token}`,
             'Content-Type': 'application/json'
         }
+        console.log(headers)
         const resp =  await axios.post(BASE_URL + 'post/create/', postData, { headers })
         return resp.data
     } catch (error) {
@@ -21,7 +22,6 @@ const createPost = async (postData) => {
 const retrievePosts = async () => {
     try{
         const response =  await axios.get(BASE_URL + 'allposts/')
-        console.log("res",response)
         return response.data
     }
     catch (error) {

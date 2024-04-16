@@ -4,6 +4,9 @@ import { CiSearch } from "react-icons/ci";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdOutlinePersonAddAlt, MdKeyboardArrowDown, MdOutlineClose } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
+import Question from "../Recommendations/Question"
+import Note from '../Recommendations/Note';
+import Poll from "../Recommendations/Poll"
 
 
 function ChatRoom() {
@@ -11,6 +14,11 @@ function ChatRoom() {
     const messageRef = useRef(null);
     const [isNewPostClicked, setIsNewPostClicked] = useState(false)
     const [isAnonymousClicked, setIsAnonymousClicked] = useState(false)
+    const [selectedTab, setSelectedTab] = useState('Note')
+
+    const handleSelectedFeatureTab = (tab) => {
+        setSelectedTab(tab);
+    };
 
     const handleDotsClicked = () => {
         setIsDotsClicked(!isDotsClicked)
@@ -56,30 +64,39 @@ function ChatRoom() {
                         <div className='flex items-center justify-between border-b-4 border-gray-200 p-2'>
                             <div className='flex gap-3 items-center'>
                                 New
-                                <div className='py-1 px-2 border gap-2 bg-gray-100 rounded-full flex items-center'>Question <MdKeyboardArrowDown /></div>
+                                <select id="postType" className='py-1 cursor-pointer px-2 outline-none border gap-2 bg-gray-100 rounded-full flex items-center' name="postType">
+                                    <option value="note">Note</option>
+                                    <option value="question">Question</option>
+                                    <option value="poll"><button onClick={() => handleSelectedFeatureTab('Poll')}>Poll</button></option>
+                                </select>
                                 in
                                 <span>SCIT</span>
                             </div>
                             <MdOutlineClose className='text-[24px] cursor-pointer' onClick={handleClosePost} />
                         </div>
-                        <div></div>
+                        <div>
+                            {selectedTab === 'Note' && <div>{<Note />}</div>}
+                            {selectedTab === 'Question' && <div>{<Question />}</div>}
+                            {selectedTab === 'Poll' && <div>{<Poll />}</div>}
+                        </div>
                         <div className='flex justify-between mx-3'>
                             <div className='flex items-center gap-2'>
+
                                 {/* anonymous clicked */}
                                 {isAnonymousClicked ? (
                                     <div className='flex items-center gap-2'>
-                                    <div className='rounded-full justify-between flex w-[45px] h-[25px] items-center p-1 bg-[#2dabb1] cursor-pointer' onClick={handleAnonymousclicked}>
-                                        <div></div>
-                                        <div className='rounded-full h-4 w-4 bg-gray-50'></div>
-                                    </div>
-                                    Post Anonymously
+                                        <div className='rounded-full justify-between flex w-[45px] h-[25px] items-center p-1 bg-[#2dabb1] cursor-pointer' onClick={handleAnonymousclicked}>
+                                            <div></div>
+                                            <div className='rounded-full h-4 w-4 bg-gray-50'></div>
+                                        </div>
+                                        Post Anonymously
                                     </div>
                                 ) : (
                                     <div className='flex items-center gap-2'>
-                                    <div className='rounded-full flex w-[45px] h-[25px] items-center p-1 bg-gray-200 cursor-pointer' onClick={handleAnonymousclicked}>
-                                        <div className='rounded-full h-4 w-4 bg-gray-50'></div>
-                                        <div></div>
-                                    </div> Post Anonymously</div>)}
+                                        <div className='rounded-full flex w-[45px] h-[25px] items-center p-1 bg-gray-200 cursor-pointer' onClick={handleAnonymousclicked}>
+                                            <div className='rounded-full h-4 w-4 bg-gray-50'></div>
+                                            <div></div>
+                                        </div> Post Anonymously</div>)}
                                 {/* anonymous clicked */}
                             </div>
                             <button className='py-1 px-2 rounded-full text-white bg-[#2dabb1]'>Post to Everyone</button>

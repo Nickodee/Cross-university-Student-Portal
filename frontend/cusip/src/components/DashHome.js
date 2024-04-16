@@ -33,8 +33,9 @@ function DashHome() {
 
   return (
     <DashLayout>
-        <div className=''>
+        <div className='mx-1'>
             {userData ? (<p className='text-center'>Welcome home, <span className='font-bold text-[#2dabb1]'>{userData.first_name}</span></p>): (<p className='text-center'>Loading user data...</p>)}
+            <div className='bg-white mt-1 w-full rounded p-2'>Graph</div>
         </div>
     </DashLayout>
   )

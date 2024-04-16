@@ -8,11 +8,15 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     username = models.CharField(unique=True, max_length=16)
-    bio = models.CharField(max_length=164, null=True, blank=True)
+    bio = models.CharField(max_length=200, null=True, blank=True)
     course = models.CharField(max_length=84, null=True, blank=True)
     registration_number = models.CharField(max_length=16, null=True, unique=True)
     cv = models.FileField(upload_to='cv_pdfs/',null=True, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    linkedin_profile = models.URLField(max_length=200, null=True, blank=True)
+    region = models.CharField(max_length=100, null=True, blank=True)
+    year_of_study = models.CharField(max_length=20, null=True, blank=True)
+    title = models.CharField(max_length=200, null=True, blank=True)
 
     confirm_password = models.CharField(max_length=128, blank=True, null=True)
     

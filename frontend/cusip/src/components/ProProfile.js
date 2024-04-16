@@ -1,4 +1,4 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import DashLayout from './Dashboard/DashLayout'
 import { FaPen } from "react-icons/fa";
 import { RiImageEditLine } from "react-icons/ri";
@@ -13,7 +13,7 @@ import { IoMdClose } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
 import { MdOutlineMail } from "react-icons/md";
 import authService from '../features/auth2/authService';
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { updateUser } from '../features/auth2/authSlice';
 
 
@@ -32,26 +32,51 @@ function ProProfile() {
   const [userData, setUserData] = useState(null)
 
   const [updateFormData, setUpdateFormData] = useState({
-    bio:'',
+    bio: '',
+    first_name: '',
+    last_name:'',
+    email: '',
+    title: '',
+    course: '',
+    profile_picture:'',
+    linkedin_profile:'',
+    region:'',
+    year_of_study: '',
+    cv: '',
+    username: ''
   })
   const dispatch = useDispatch()
-  const {bio} =  updateFormData
+  const { bio,first_name,last_name,email,title,course,profile_picture,linkedin_profile,region,year_of_study,cv,username } = updateFormData
 
 
   const onChange = (e) => {
-    setUpdateFormData((prevState)=>({
+    setUpdateFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
   }
 
-  const onUpdateSubmit = (e) => {
+  const onUpdateSubmit = async (e) => {
     e.preventDefault();
 
     const updateData = {
       bio
     }
     dispatch(updateUser(updateData))
+
+     // Close the bio modal
+    setIsBioOpen(false);
+
+    // Clear the bio input field
+    setUpdateFormData((prevState) => ({
+      ...prevState,
+      bio: '',
+    }));
+     // Update the userData state with the new bio value
+  setUserData((prevUserData) => ({
+    ...prevUserData,
+    bio: bio
+  }));
   }
 
   useEffect(() => {
@@ -114,14 +139,14 @@ function ProProfile() {
             </div>
             <div className='relative -top-7 mx-2'>
               {userData ? (<>
-              <div className='flex w-full justify-between items-center font-bold text-xl'>{userData.first_name + " " +userData.last_name} <FaPen onClick={toggleUserModal} className='cursor-pointer' /></div>
-              <div>
-                <div className='flex gap-2 items-center'><SlLocationPin />Nairobi,Kenya</div>
-                <div className='flex gap-2 items-center'><MdLocalPhone />+25467676272</div>
-                <div className='text-[#2dabb1]'>Graphic Designer</div>
-                <div className='flex gap-2 items-center'><MdOutlineMail/>{userData.email}</div>
-                <div className='flex gap-2 items-center'><CiLinkedin /><span>nicodemusmuholo/linkedin/co/ke</span><GoCopy /></div>
-              </div>
+                <div className='flex w-full justify-between items-center font-bold text-xl'>{userData.first_name + " " + userData.last_name} <FaPen onClick={toggleUserModal} className='cursor-pointer' /></div>
+                <div>
+                  <div className='flex gap-2 items-center'><SlLocationPin />Nairobi,Kenya</div>
+                  <div className='flex gap-2 items-center'><MdLocalPhone />+25467676272</div>
+                  <div className='text-[#2dabb1]'>Graphic Designer</div>
+                  <div className='flex gap-2 items-center'><MdOutlineMail />{userData.email}</div>
+                  <div className='flex gap-2 items-center'><CiLinkedin /><span>nicodemusmuholo/linkedin/co/ke</span><GoCopy /></div>
+                </div>
               </>
               ) : (<p>Failed to</p>)}
             </div>
@@ -168,14 +193,20 @@ function ProProfile() {
                         <input type='text' placeholder='Enter your Region' className='w-full border rounded p-1 outline-[#2dabb1]' />
                       </div>
                     </div>
-                    <div>
-                      <label>Linkedin profile</label>
-                      <input type='text' placeholder='Enter your Linkedin profile' className='w-full border rounded p-1 outline-[#2dabb1]' />
+                    <div className='flex gap-3'>
+                      <div>
+                        <label>Email Address</label>
+                        <input type='email' placeholder='Enter your Email Address' className='w-full border rounded p-1 outline-[#2dabb1]' />
+                      </div>
+                      <div>
+                        <label>Phone Number</label>
+                        <input type='text' placeholder='Enter your Phone Number' className='w-full border rounded p-1 outline-[#2dabb1]' />
+                      </div>
                     </div>
                     <div>
-                      <label>Phone Number</label>
-                      <input type='text' placeholder='Enter your Phone Number' className='w-full border rounded p-1 outline-[#2dabb1]' />
-                    </div>
+                        <label>Linkedin profile</label>
+                        <input type='text' placeholder='Enter your Linkedin profile' className='w-full border rounded p-1 outline-[#2dabb1]' />
+                      </div>
                     <div className='flex w-full justify-between gap-3 px-3'>
                       <button onClick={toggleUserModal} className='border rounded-full w-full hover:bg-[#2dabb1] hover:text-white p-2'>Cancel</button>
                       <button type='submit' className='border bg-[#2dabb1] rounded-full w-full hover:shadow-md text-white p-2'>Save</button>
@@ -187,8 +218,8 @@ function ProProfile() {
           )}
           <div className='w-full bg-white rounded mt-3 p-3'>
             <div className='flex justify-between font-bold'>Bio <FaPen className='cursor-pointer' onClick={toggleBioModal} /></div>
-            {userData? (
-            <div>{userData.bio}</div>): ('')}
+            {userData ? (
+              <div>{userData.bio}</div>) : ('')}
           </div>
           {/* Code to open the Bio Modal */}
           {isBioOpen && (
@@ -255,8 +286,8 @@ function ProProfile() {
                       <div>
                         <label>Start date</label>
                         <div>
-                          <input type='text' placeholder='Enter Month'/>
-                          <SlCalender/>
+                          <input type='text' placeholder='Enter Month' />
+                          <SlCalender />
                         </div>
                       </div>
                     </div>

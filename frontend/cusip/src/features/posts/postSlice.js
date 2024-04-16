@@ -10,6 +10,7 @@ const initialState = {
 }
 
 export const createNewPost = createAsyncThunk('post/create', async(postData,thunkAPI) => {
+  console.log(postData)
     try{
       return await postService.createPost(postData)
     } catch (error) {

@@ -62,8 +62,15 @@ const getAllUsers = async()=>{
 
 //update user
 const updateUserProfile = async(userData)=>{
+    const userFromStorage = localStorage.getItem('user');
+        const user = JSON.parse(userFromStorage)
+        const token = user.token
+        const headers = {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        }
     try{
-        const resp = await axios.post(BASE_URL + '/user/update', userData)
+        const resp = await axios.put(BASE_URL + '/user/update', userData, {headers})
         return resp.data
     }
     catch (error) {
