@@ -4,9 +4,9 @@ import { CiSearch } from "react-icons/ci";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdOutlinePersonAddAlt, MdKeyboardArrowDown, MdOutlineClose } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
-import Question from "../Recommendations/Question"
-import Note from '../Recommendations/Note';
-import Poll from "../Recommendations/Poll"
+import Question from "../Post-Components/Question"
+import Note from '../Post-Components/Note';
+import Poll from "../Post-Components/Poll"
 
 
 function ChatRoom() {

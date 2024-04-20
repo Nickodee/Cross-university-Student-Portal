@@ -4,6 +4,7 @@ from django.urls import path
 from app.views.user import CreateUser, LoginUserView,RetrieveUser, UpdateUser,DestroyUser, LogoutUser,GetAllUsersView
 from app.views.post import CommentPost, CreatePost, DestroyPost, FollowUser,GetAllPostsView, RetrievePost, RetrieveUserPosts, UpdatePost, LikePost
 from app.views.chats import SendMessage, RetrieveMessage, GetAllMessagesView, UpdateMessage, DestroyMessage, RetrieveUserMessages
+from app.views.model import get_recommendations
 
 urlpatterns = [
     path('user/create', CreateUser.as_view()),
@@ -33,4 +34,6 @@ urlpatterns = [
     path('message/update/<int:pk>/', UpdateMessage.as_view()),
     path('message/delete/<int:pk>/', DestroyMessage.as_view()),
     path('user/messages/', RetrieveUserMessages.as_view()),
+
+    path('api/get_recommendations/', get_recommendations)
 ]
