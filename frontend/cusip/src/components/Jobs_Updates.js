@@ -133,12 +133,12 @@ function Jobs_Updates() {
                           <input
                             type='file'
                             id='image'
-                            accept='image/*' 
+                            accept='image/*'
                             // style={{ display: 'none' }}
-                            ref={fileInputRef} 
-                            onChange={handleImageChange} 
+                            ref={fileInputRef}
+                            onChange={handleImageChange}
                           />
-                          <button className='flex items-center gap-3' onClick={() => fileInputRef.current.click()}>Add a cover Photo <MdPhotoSizeSelectLarge className='cursor-pointer text-[#2dabb1]'  /></button>
+                          <button className='flex items-center gap-3' onClick={() => fileInputRef.current.click()}>Add a cover Photo <MdPhotoSizeSelectLarge className='cursor-pointer text-[#2dabb1]' /></button>
                         </div>
                         <input type='text' placeholder='Write your title' id='post_title' onChange={onChange} value={title} name="title" className='outline-none p-1 w-full border-b-2' />
                         <input type='text' placeholder='Enter the title description' id='post_description' onChange={onChange} value={description} name="description" className='outline-none border-b-2 p-1 w-full' />
@@ -171,11 +171,11 @@ function Jobs_Updates() {
                 <div className='flex gap-3 items-center'>
                   <div className='bg-[#2aabb1] h-10 w-10 rounded'></div>
                   <div className='flex flex-col'>
-                    <div className='flex gap-3 items-center'>Nicodemus Muholo <span>2 hrs ago</span></div>
+                    <div className='flex gap-3 items-center'><span className='text-[#2dabb1]'>{post.first_name}</span> <span className='text-gray-400'>2 hrs ago</span></div>
                     <p>Posted in SCIT Room</p>
                   </div>
                 </div>
-                <div className='flex items-center gap-3 relative'><CiBookmark className='cursor-pointer' /> <HiOutlineDotsVertical className='cursor-pointer'  onClick={() => handle3DotsClicked(index)}/></div>
+                <div className='flex items-center gap-3 relative'><CiBookmark className='cursor-pointer' /> <HiOutlineDotsVertical className='cursor-pointer' onClick={() => handle3DotsClicked(index)} /></div>
                 {/* handle dots clicked */}
                 {is3DotsClicked && clickedPostIndex === index && (
                   <div className='bg-white absolute py-2 pl-2 pr-5 rounded shadow z-10 right-2 top-10 flex flex-col gap-2'>
@@ -199,7 +199,7 @@ function Jobs_Updates() {
                 </div>
                 <button className='flex text-gray-600 hover:text-black items-center gap-2' onClick={handleButtonClick}><span>454</span>comments</button>
               </div>
-              <div className='mt-1'>
+              <div className='mt-1 mb-3 border-b-2'>
                 {selectedTab && (
                   <div><Comments /></div>
                 )}

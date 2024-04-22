@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import User,Post,PostComment,PostLike,UserFollow, Message
+from app.models import User,Post,PostComment,PostLike,UserFollow, Message, Question, Response
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,6 +33,8 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 class PostSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
     class Meta:
         model = Post
         fields = "__all__"
@@ -81,3 +83,21 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['id', 'sender', 'receiver', 'content', 'timestamp']
+
+class QuestionSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    class Meta:
+        model = Question
+        fields = "__all__"
+
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+class ResponseSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    class Meta:
+        model = Response
+        fields = "__all__"
+
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
