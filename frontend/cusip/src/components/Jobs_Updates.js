@@ -140,9 +140,9 @@ function Jobs_Updates() {
                           />
                           <button className='flex items-center gap-3' onClick={() => fileInputRef.current.click()}>Add a cover Photo <MdPhotoSizeSelectLarge className='cursor-pointer text-[#2dabb1]' /></button>
                         </div>
-                        <input type='text' placeholder='Write your title' id='post_title' onChange={onChange} value={title} name="title" className='outline-none p-1 w-full border-b-2' />
-                        <input type='text' placeholder='Enter the title description' id='post_description' onChange={onChange} value={description} name="description" className='outline-none border-b-2 p-1 w-full' />
-                        <textarea className=' text-wrap whitespace-normal w-full outline-none mt-3' value={content} name='content' onChange={onChange} placeholder='Content goes here'></textarea>
+                        <input type='text' placeholder='Write your title' id='title' onChange={onChange} value={title} name="title" className='outline-none p-1 w-full border-b-2' />
+                        <input type='text' placeholder='Enter the title description' id='description' onChange={onChange} value={description} name="description" className='outline-none border-b-2 p-1 w-full' />
+                        <textarea className=' text-wrap whitespace-normal w-full outline-none mt-3' value={content} id='content' name='content' onChange={onChange} placeholder='Content goes here'></textarea>
                       </div>
                       <div className='w-full border-t-2 pt-2  md:justify-between flex-col md:flex-row gap-2 flex md:gap-4 md:items-center'>
                         <div className='flex items-center gap-3'>

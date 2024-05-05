@@ -26,7 +26,7 @@ function Comments() {
                                 <div className='flex gap-3 mt-3'>
                                     <div className='h-10 w-10 bg-[#2dabb1] rounded'></div>
                                     <div className='w-full flex flex-col gap-2'>
-                                        <input type='text' className='w-full p-2 rounded outline-[#2dabb1]' placeholder='What are your thoughts' />
+                                        <input type='text' className='w-full p-2 rounded border outline-[#2dabb1]' placeholder='What are your thoughts' />
                                         <div className='flex justify-between'>
                                             <ul className='flex gap-3 items-center'>
                                                 <LuFiles />

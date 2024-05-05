@@ -145,7 +145,7 @@ function ProProfile() {
                   <div className='flex gap-2 items-center'><MdLocalPhone />+25467676272</div>
                   <div className='text-[#2dabb1]'>Graphic Designer</div>
                   <div className='flex gap-2 items-center'><MdOutlineMail />{userData.email}</div>
-                  <div className='flex gap-2 items-center'><CiLinkedin /><span>nicodemusmuholo/linkedin/co/ke</span><GoCopy /></div>
+                  <div className='flex gap-2 items-center'><CiLinkedin /><span>johndoe/linkedin/co/ke</span><GoCopy /></div>
                 </div>
               </>
               ) : (<p>Failed to</p>)}

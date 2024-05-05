@@ -74,3 +74,9 @@ class Response(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     question = models.ForeignKey(Question, null=True, on_delete=models.CASCADE)
+
+class PostJob(models.Model):
+    name = models.CharField(max_length=100)
+    company = models.CharField(max_length=200)
+    jobType = models.CharField(max_length = 80)
+    description = models.CharField(max_length=600)

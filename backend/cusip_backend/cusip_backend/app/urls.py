@@ -5,6 +5,7 @@ from app.views.user import CreateUser, LoginUserView,RetrieveUser, UpdateUser,De
 from app.views.post import CommentPost, CreatePost, DestroyPost, FollowUser,GetAllPostsView, RetrievePost, RetrieveUserPosts, UpdatePost, LikePost
 from app.views.chats import SendMessage, RetrieveMessage, GetAllMessagesView, UpdateMessage, DestroyMessage, RetrieveUserMessages
 from app.views.model import get_recommendations
+from app.views.postJob import CreatePostJob,RetrievePostJob
 from app.views.question import CreateQuestion, RetrieveQuestion, GetAllQuestionsView, CreateResponse, RetrieveResponse, GetAllResponsesView
 
 
@@ -45,5 +46,8 @@ urlpatterns = [
 
     path('response/create/', CreateResponse.as_view()),
     path('response/<int:pk>/', RetrieveResponse.as_view()),
-    path('responses/', GetAllResponsesView.as_view()), 
+    path('responses/', GetAllResponsesView.as_view()),
+
+    path('postjob/create/',CreatePostJob.as_view() ),
+    path('jobs',RetrievePostJob.as_view() ) 
 ]

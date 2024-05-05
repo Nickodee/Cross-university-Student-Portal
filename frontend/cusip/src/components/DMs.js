@@ -157,8 +157,6 @@ function DMs() {
                     )}
                   </p>
 
-
-
                 </div>
                 <div className='w-full pb-1 flex flex-col gap-2'>
                   <div className='flex items-center border'>

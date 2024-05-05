@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import User,Post,PostComment,PostLike,UserFollow, Message, Question, Response
+from app.models import User,Post,PostComment,PostLike,UserFollow, Message, Question, Response, PostJob
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -101,3 +101,8 @@ class ResponseSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+class PostJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostJob
+        fields = "__all__"
